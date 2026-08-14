@@ -1,6 +1,83 @@
 {
   "candidates": [
     {
+      "id": 2,
+      "user_id": 2,
+      "name": "AbdelRahman Mohamed",
+      "email": "sim.abdelrahmanmohamed69792@alexu.edu.eg",
+      "phone": "01010111837",
+      "company": "",
+      "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/",
+      "score": 0,
+      "total_questions": 30,
+      "cefr_level": "In Progress",
+      "c_suite_level": "1/30 Answered",
+      "infractions_count": 0,
+      "status": "IN_PROGRESS",
+      "started_at": "2026-08-14T19:35:00.134Z",
+      "completed_at": null,
+      "answers": {
+        "1": -1
+      },
+      "report": {
+        "score": 0,
+        "totalQuestions": 30,
+        "accuracy": 0,
+        "cefrLevel": "B1",
+        "cSuiteStage": {
+          "title": "Emerging Professional",
+          "description": "Developing conversational and technical English, but struggling with boardroom nuance and persuasion."
+        },
+        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (0% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
+        "sectionRatings": [
+          {
+            "category": "Grammar",
+            "title": "GRAMMAR DECISIONS",
+            "subtitle": "Grammatical mechanics & complex reported tenses.",
+            "score": 0,
+            "total": 10,
+            "percentage": 0,
+            "badge": "NEEDS IMPROVEMENT",
+            "badgeType": "warning"
+          },
+          {
+            "category": "Vocabulary",
+            "title": "C-SUITE LEXICAL RESOURCE",
+            "subtitle": "Precision corporate collocations & registry.",
+            "score": 0,
+            "total": 10,
+            "percentage": 0,
+            "badge": "NEEDS IMPROVEMENT",
+            "badgeType": "warning"
+          },
+          {
+            "category": "Situations",
+            "title": "COMMUNICATION JUDGMENT",
+            "subtitle": "Tactful, leadership-aligned workplace decisions.",
+            "score": 0,
+            "total": 10,
+            "percentage": 0,
+            "badge": "NEEDS IMPROVEMENT",
+            "badgeType": "warning"
+          }
+        ],
+        "recommendedPath": [
+          {
+            "title": "Advanced Grammar Precision",
+            "description": "Refine tense selection, complex structures, sentence control, and spontaneous accuracy."
+          },
+          {
+            "title": "Executive Vocabulary & Collocations",
+            "description": "Replace generic language with precise, natural professional language."
+          },
+          {
+            "title": "Executive Communication Strategy",
+            "description": "Influence, disagreement, negotiation, leadership, and high-stakes meetings."
+          }
+        ]
+      }
+    },
+    {
       "name": "AbdelRahman Masoud",
       "email": "abdelrahmanmasoud824@gmail.com",
       "score": 28
