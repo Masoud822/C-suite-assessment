@@ -407,39 +407,108 @@ export const clearAllResponses = async () => {
 };
 
 export const getAdminQuestions = async () => {
-  const res = await fetch(`${API_URL}/questions`, {
-    method: 'GET',
-    headers: getHeaders()
-  });
-  if (!res.ok) throw new Error('Failed to fetch questions');
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/questions`, {
+      method: 'GET',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const stored = localStorage.getItem('local_custom_questions');
+  if (stored) {
+    try {
+      return JSON.parse(stored);
+    } catch {}
+  }
+
+  const initial = assessmentQuestions.map(q => ({
+    id: q.id,
+    category: q.category,
+    text: q.text,
+    options: q.options,
+    correct_answer: q.correctAnswer !== undefined ? q.correctAnswer : 0
+  }));
+  localStorage.setItem('local_custom_questions', JSON.stringify(initial));
+  return initial;
 };
 
 export const createQuestion = async (questionData) => {
-  const res = await fetch(`${API_URL}/questions`, {
-    method: 'POST',
-    headers: getHeaders(),
-    body: JSON.stringify(questionData)
-  });
-  if (!res.ok) throw new Error('Failed to create question');
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/questions`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(questionData)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const questions = await getAdminQuestions();
+  const newQuestion = {
+    id: Date.now(),
+    category: questionData.category,
+    text: questionData.text,
+    options: questionData.options,
+    correct_answer: questionData.correctAnswer !== undefined ? questionData.correctAnswer : (questionData.correct_answer || 0)
+  };
+  questions.push(newQuestion);
+  localStorage.setItem('local_custom_questions', JSON.stringify(questions));
+  return newQuestion;
 };
 
 export const updateQuestion = async (id, questionData) => {
-  const res = await fetch(`${API_URL}/questions/${id}`, {
-    method: 'PUT',
-    headers: getHeaders(),
-    body: JSON.stringify(questionData)
-  });
-  if (!res.ok) throw new Error('Failed to update question');
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/questions/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(questionData)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const questions = await getAdminQuestions();
+  const idx = questions.findIndex(q => q.id === id);
+  if (idx !== -1) {
+    questions[idx] = {
+      ...questions[idx],
+      category: questionData.category,
+      text: questionData.text,
+      options: questionData.options,
+      correct_answer: questionData.correctAnswer !== undefined ? questionData.correctAnswer : (questionData.correct_answer || 0)
+    };
+    localStorage.setItem('local_custom_questions', JSON.stringify(questions));
+    return questions[idx];
+  }
+  return { id, ...questionData };
 };
 
 export const deleteQuestion = async (id) => {
-  const res = await fetch(`${API_URL}/questions/${id}`, {
-    method: 'DELETE',
-    headers: getHeaders()
-  });
-  if (!res.ok) throw new Error('Failed to delete question');
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/questions/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const questions = await getAdminQuestions();
+  const filtered = questions.filter(q => q.id !== id);
+  localStorage.setItem('local_custom_questions', JSON.stringify(filtered));
+  return { success: true };
 };

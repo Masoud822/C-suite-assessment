@@ -7,10 +7,12 @@ import AssessmentQuestionPage from './pages/AssessmentQuestionPage'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminLoginPage from './pages/AdminLoginPage'
 import GuestRoute from './components/GuestRoute'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   return (
     <HashRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<LandingPage />} />

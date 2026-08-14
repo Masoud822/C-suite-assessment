@@ -213,6 +213,11 @@ const AssessmentQuestionPage = () => {
     };
   }, [currentIndex, acceptedTerms, showCategoryIntro, isFinished, loading, handleNext, questions]);
 
+  // Scroll to top on question and phase transitions
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [currentIndex, showCategoryIntro, isFinished, showBookingForm, acceptedTerms]);
+
   // Anti-Cheat System
   const handleCheat = useCallback(async (type) => {
     const now = Date.now();
