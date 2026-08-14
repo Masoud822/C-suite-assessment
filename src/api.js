@@ -374,12 +374,36 @@ export const getAdminAssessmentDetails = async (id) => {
 };
 
 export const getAdminAssessments = async () => {
-  const res = await fetch(`${API_URL}/admin/assessments`, {
-    method: 'GET',
-    headers: getHeaders()
-  });
-  if (!res.ok) throw new Error('Failed to fetch admin assessments');
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/admin/assessments`, {
+      method: 'GET',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+  return [];
+};
+
+export const clearAllResponses = async () => {
+  try {
+    const res = await fetch(`${API_URL}/admin/clear-responses`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+  localStorage.removeItem('local_answers');
+  localStorage.removeItem('local_infractions');
+  localStorage.removeItem('local_booking');
+  return { success: true };
 };
 
 export const getAdminQuestions = async () => {

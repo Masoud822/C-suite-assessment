@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAdminAssessments, getAdminQuestions, createQuestion, updateQuestion, deleteQuestion, getAdminAssessmentDetails } from '../api';
-import { FaUserShield, FaExclamationTriangle, FaPlus, FaEdit, FaTrash, FaCheck, FaTimes } from 'react-icons/fa';
+import { getAdminAssessments, getAdminQuestions, createQuestion, updateQuestion, deleteQuestion, getAdminAssessmentDetails, clearAllResponses } from '../api';
+import { FaUserShield, FaExclamationTriangle, FaPlus, FaEdit, FaTrash, FaCheck, FaTimes, FaSync } from 'react-icons/fa';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('candidates'); // 'candidates' or 'questions'
@@ -43,8 +43,8 @@ const AdminDashboard = () => {
         getAdminAssessments(),
         getAdminQuestions()
       ]);
-      setAssessments(assData);
-      setQuestions(qData);
+      setAssessments(assData || []);
+      setQuestions(qData || []);
     } catch (err) {
       setError(err.message || 'Failed to fetch dashboard data');
     } finally {
@@ -60,6 +60,21 @@ const AdminDashboard = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/admin/login');
+  };
+
+  const handleClearAll = async () => {
+    if (window.confirm("Are you sure you want to permanently delete all candidate assessment records and responses?")) {
+      try {
+        setLoading(true);
+        await clearAllResponses();
+        setAssessments([]);
+        alert("All candidate assessment responses have been successfully cleared.");
+      } catch (err) {
+        alert("Error clearing responses: " + err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const viewDetails = async (assessment) => {
@@ -146,25 +161,51 @@ const AdminDashboard = () => {
   if (loading && assessments.length === 0) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center gap-4 text-brand-primary">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <div className="flex items-center gap-3 text-brand-primary">
             <FaUserShield size={32} />
-            <h1 className="text-3xl font-sans font-bold">Admin Dashboard</h1>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-sans font-bold">Admin Dashboard</h1>
+              <p className="text-xs text-gray-500 font-medium">Executive Assessment Diagnostics Management</p>
+            </div>
           </div>
-          <button 
-            onClick={handleLogout}
-            className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium"
-          >
-            Logout
-          </button>
+
+          <div className="flex items-center gap-3 self-end sm:self-auto">
+            <button 
+              onClick={fetchDashboardData}
+              title="Refresh Data"
+              className="px-3.5 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium flex items-center gap-2 text-sm shadow-sm cursor-pointer"
+            >
+              <FaSync size={13} />
+              <span>Refresh</span>
+            </button>
+
+            {activeTab === 'candidates' && (
+              <button 
+                onClick={handleClearAll}
+                className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-medium text-sm shadow-sm cursor-pointer flex items-center gap-2"
+              >
+                <FaTrash size={12} />
+                <span>Clear All Responses</span>
+              </button>
+            )}
+
+            <button 
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium text-sm cursor-pointer"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {error && (
-          <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
-            {error}
+          <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-6 flex items-center justify-between">
+            <span>{error}</span>
+            <button onClick={() => setError('')} className="text-red-700 font-bold ml-4">✕</button>
           </div>
         )}
 

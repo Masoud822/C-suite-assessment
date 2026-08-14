@@ -70,4 +70,25 @@ router.get('/assessments/:id', (req, res) => {
   }
 });
 
+// Clear all candidate assessment responses, bookings, and candidate records
+router.post('/clear-responses', (req, res) => {
+  try {
+    db.transaction(() => {
+      db.prepare('DELETE FROM answers').run();
+      db.prepare('DELETE FROM bookings').run();
+      db.prepare('DELETE FROM assessments').run();
+      db.prepare("DELETE FROM users WHERE role != 'ADMIN'").run();
+      try {
+        db.prepare("DELETE FROM sqlite_sequence WHERE name IN ('answers', 'bookings', 'assessments', 'users')").run();
+      } catch (e) {
+        // sequence may not exist
+      }
+    })();
+    res.json({ success: true, message: 'All candidate data and assessment responses cleared successfully.' });
+  } catch (err) {
+    console.error('Error clearing database:', err);
+    res.status(500).json({ error: 'Failed to clear responses' });
+  }
+});
+
 module.exports = router;
