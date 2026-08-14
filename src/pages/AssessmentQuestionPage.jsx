@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaExclamationTriangle, FaCheckCircle, FaClock, FaShieldAlt, FaArrowRight, FaLinkedin } from 'react-icons/fa';
+import { FaExclamationTriangle, FaCheckCircle, FaClock, FaShieldAlt, FaArrowRight, FaLinkedin, FaTimes } from 'react-icons/fa';
 import { startAssessment, getCurrentAssessment, submitAnswer, logInfraction, bookSpeakingAssessment } from '../api';
 import { CEFR_LEARNING_PATHS } from '../data/learningPaths';
 
@@ -27,6 +27,8 @@ const AssessmentQuestionPage = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [cheatWarning, setCheatWarning] = useState(false);
+  const cheatTimeoutRef = useRef(null);
+  const lastCheatTimeRef = useRef(0);
   
   // 20-Second Timer per question
   const [timeLeft, setTimeLeft] = useState(20);
@@ -213,10 +215,24 @@ const AssessmentQuestionPage = () => {
 
   // Anti-Cheat System
   const handleCheat = useCallback(async (type) => {
+    const now = Date.now();
+    if (now - lastCheatTimeRef.current < 2500) {
+      return;
+    }
+    lastCheatTimeRef.current = now;
+
     if (assessmentIdRef.current && acceptedTerms && !isFinished) {
       setCheatWarning(true);
-      await logInfraction(assessmentIdRef.current, type);
-      setTimeout(() => setCheatWarning(false), 3000);
+      if (cheatTimeoutRef.current) clearTimeout(cheatTimeoutRef.current);
+      cheatTimeoutRef.current = setTimeout(() => {
+        setCheatWarning(false);
+      }, 3500);
+
+      try {
+        await logInfraction(assessmentIdRef.current, type);
+      } catch (err) {
+        console.error('Error logging infraction:', err);
+      }
     }
   }, [acceptedTerms, isFinished]);
 
@@ -432,7 +448,7 @@ const AssessmentQuestionPage = () => {
 
   return (
     <div 
-      className={`min-h-screen flex flex-col items-center justify-center relative w-full py-6 px-4 bg-cover bg-center ${(!isFinished && acceptedTerms && !showBookingForm) ? 'select-none' : ''}`}
+      className={`min-h-screen flex flex-col items-center justify-center relative w-full py-4 sm:py-6 px-3 sm:px-4 bg-cover bg-center ${(!isFinished && acceptedTerms && !showBookingForm) ? 'select-none' : ''}`}
       style={{ backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.96)), url('/assessment_bg.jpg')" }}
     >
       
@@ -443,13 +459,22 @@ const AssessmentQuestionPage = () => {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            className="fixed top-6 z-50 bg-red-600 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-3 border-2 border-red-800 text-sm"
+            className="fixed top-4 sm:top-6 z-50 bg-red-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl shadow-2xl flex items-center justify-between gap-3 border-2 border-red-700 text-xs sm:text-sm max-w-[94%] sm:max-w-md w-full mx-auto left-0 right-0"
           >
-            <FaExclamationTriangle size={24} />
-            <div>
-              <h3 className="font-bold">Warning: Unauthorized Action Detected</h3>
-              <p className="text-xs opacity-90">Leaving the tab, right-clicking, or using DevTools is logged.</p>
+            <div className="flex items-center gap-3">
+              <FaExclamationTriangle size={18} className="shrink-0 text-red-200" />
+              <div>
+                <h3 className="font-bold text-xs sm:text-sm">Notice: Focus Shift Detected</h3>
+                <p className="text-[10px] sm:text-xs opacity-90">Please remain on the assessment window. Integrity is monitored.</p>
+              </div>
             </div>
+            <button 
+              onClick={() => setCheatWarning(false)}
+              className="p-1.5 hover:bg-white/20 rounded-lg transition-colors cursor-pointer text-white shrink-0"
+              aria-label="Dismiss warning"
+            >
+              <FaTimes size={14} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -463,44 +488,44 @@ const AssessmentQuestionPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            className="w-full max-w-2xl bg-white rounded-3xl shadow-xl border border-slate-200 p-8 md:p-10 flex flex-col font-sans"
+            className="w-[94%] max-w-2xl bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-5 sm:p-8 md:p-10 flex flex-col font-sans my-4"
           >
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-              <div className="w-12 h-12 rounded-2xl bg-[#003a8f]/10 text-[#003a8f] flex items-center justify-center shrink-0">
-                <FaShieldAlt size={24} />
+            <div className="flex items-center gap-3 mb-5 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-100">
+              <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-[#003a8f]/10 text-[#003a8f] flex items-center justify-center shrink-0">
+                <FaShieldAlt size={20} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-slate-900">Assessment Guidelines & Rules</h1>
-                <p className="text-xs text-slate-500 font-medium">Please review the rules before starting your diagnostic</p>
+                <h1 className="text-lg sm:text-2xl font-bold text-slate-900">Assessment Guidelines & Rules</h1>
+                <p className="text-[11px] sm:text-xs text-slate-500 font-medium">Please review the rules before starting your diagnostic</p>
               </div>
             </div>
 
-            <div className="space-y-4 mb-8">
-              <div className="p-4 rounded-2xl bg-[#f0f6ff] border border-blue-100 flex items-start gap-3.5">
-                <div className="text-[#003a8f] mt-1 shrink-0"><FaClock size={20} /></div>
+            <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-[#f0f6ff] border border-blue-100 flex items-start gap-3">
+                <div className="text-[#003a8f] mt-0.5 shrink-0"><FaClock size={18} /></div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">20 Seconds per Question</h3>
-                  <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">20 Seconds per Question</h3>
+                  <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 leading-relaxed">
                     Each question features a live 20-second countdown bar. When the timer expires, the test automatically transitions to the next question.
                   </p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-3.5">
-                <div className="text-[#003a8f] mt-1 shrink-0"><FaArrowRight size={18} /></div>
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-3">
+                <div className="text-[#003a8f] mt-0.5 shrink-0"><FaArrowRight size={16} /></div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Forward-Only Navigation</h3>
-                  <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">Forward-Only Navigation</h3>
+                  <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 leading-relaxed">
                     Questions must be answered sequentially. There is no return to previous questions once submitted or timed out.
                   </p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-start gap-3.5">
-                <div className="text-amber-600 mt-1 shrink-0"><FaShieldAlt size={20} /></div>
+              <div className="p-3.5 sm:p-4 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-start gap-3">
+                <div className="text-amber-600 mt-0.5 shrink-0"><FaShieldAlt size={18} /></div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">Anti-Cheat & Integrity System Active</h3>
-                  <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">Anti-Cheat & Integrity System Active</h3>
+                  <p className="text-[11px] sm:text-xs text-slate-600 mt-0.5 leading-relaxed">
                     Tab switches, window focus loss, right-clicks, and developer tools are strictly tracked and flagged in your final evaluation.
                   </p>
                 </div>
@@ -512,7 +537,7 @@ const AssessmentQuestionPage = () => {
                 setAcceptedTerms(true);
                 setShowCategoryIntro(true);
               }}
-              className="w-full h-14 bg-[#003a8f] text-white font-bold rounded-2xl hover:bg-opacity-95 transition-all shadow-md flex items-center justify-center gap-2 text-base cursor-pointer"
+              className="w-full h-12 sm:h-14 bg-[#003a8f] text-white font-bold rounded-2xl hover:bg-opacity-95 transition-all shadow-md flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
             >
               <span>I Understand & Accept Terms</span>
               <span>→</span>
@@ -526,7 +551,7 @@ const AssessmentQuestionPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-3xl bg-white rounded-3xl shadow-xl border border-slate-200 p-8 md:p-12 flex flex-col font-sans my-6"
+            className="w-[94%] max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-xl border border-slate-200 p-5 sm:p-8 md:p-12 flex flex-col font-sans my-4 select-text"
           >
             {bookingConfirmed ? (
               /* Booking Success Confirmation */
@@ -752,12 +777,12 @@ const AssessmentQuestionPage = () => {
             key="finish"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full max-w-4xl flex flex-col gap-6 font-sans text-slate-800 my-4"
+            className="w-[94%] max-w-4xl flex flex-col gap-4 sm:gap-6 font-sans text-slate-800 my-4"
           >
             {/* 1. Header & Overall Summary Card */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
-              <div className="mb-6">
-                <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm border border-slate-100">
+              <div className="mb-5 sm:mb-6">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
                   {results.candidate?.name || 'Candidate'}’s Communication Profile
                 </h1>
                 <p className="text-xs md:text-sm text-slate-500 font-medium mt-1">
@@ -769,8 +794,8 @@ const AssessmentQuestionPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-12 rounded-2xl border border-slate-200/90 overflow-hidden">
                 
                 {/* Overall Score */}
-                <div className="md:col-span-3 p-5 md:p-6 flex flex-col justify-center items-center md:items-start border-b md:border-b-0 md:border-r border-slate-200/90">
-                  <span className="text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-1">OVERALL SCORE</span>
+                <div className="md:col-span-3 p-4 sm:p-5 md:p-6 flex flex-col justify-center items-center md:items-start border-b md:border-b-0 md:border-r border-slate-200/90">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-1">OVERALL SCORE</span>
                   <div className="flex items-baseline gap-1 my-1">
                     <span className="text-3xl md:text-4xl font-extrabold text-[#003a8f]">{results.score}</span>
                     <span className="text-lg md:text-xl font-normal text-slate-400">/ {results.totalQuestions}</span>
@@ -779,8 +804,8 @@ const AssessmentQuestionPage = () => {
                 </div>
 
                 {/* Estimated CEFR */}
-                <div className="md:col-span-3 p-5 md:p-6 flex flex-col justify-center items-center md:items-start border-b md:border-b-0 md:border-r border-slate-200/90">
-                  <span className="text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-1">ESTIMATED CEFR</span>
+                <div className="md:col-span-3 p-4 sm:p-5 md:p-6 flex flex-col justify-center items-center md:items-start border-b md:border-b-0 md:border-r border-slate-200/90">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 tracking-wider uppercase mb-1">ESTIMATED CEFR</span>
                   <div className="my-1">
                     <span className="text-3xl md:text-4xl font-extrabold text-slate-900">{results.cefrLevel}</span>
                   </div>
@@ -788,9 +813,9 @@ const AssessmentQuestionPage = () => {
                 </div>
 
                 {/* C-Suite Communication Stage (Light Blue Accent) */}
-                <div className="md:col-span-6 p-5 md:p-6 bg-[#f0f6ff] flex flex-col justify-center">
-                  <span className="text-[11px] font-bold text-[#003a8f] tracking-wider uppercase mb-1">C-SUITE COMMUNICATION STAGE</span>
-                  <h3 className="text-lg md:text-xl font-bold text-slate-900 leading-snug my-1">
+                <div className="md:col-span-6 p-4 sm:p-5 md:p-6 bg-[#f0f6ff] flex flex-col justify-center">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-[#003a8f] tracking-wider uppercase mb-1">C-SUITE COMMUNICATION STAGE</span>
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-900 leading-snug my-1">
                     {results.cSuiteStage?.title || 'Pre-Independent Communicator'}
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed">
@@ -802,29 +827,29 @@ const AssessmentQuestionPage = () => {
             </div>
 
             {/* 2. Diagnostic Summary Card */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
-              <h2 className="text-lg md:text-xl font-bold text-slate-900 mb-4">Diagnostic Summary</h2>
-              <div className="border-l-4 border-[#003a8f] pl-4 md:pl-5 py-1">
-                <p className="text-slate-600 leading-relaxed text-sm md:text-[15px]">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm border border-slate-100">
+              <h2 className="text-base sm:text-lg md:text-xl font-bold text-slate-900 mb-3 sm:mb-4">Diagnostic Summary</h2>
+              <div className="border-l-4 border-[#003a8f] pl-3.5 sm:pl-4 md:pl-5 py-1">
+                <p className="text-slate-600 leading-relaxed text-xs sm:text-sm md:text-[15px]">
                   {results.diagnosticSummary}
                 </p>
               </div>
             </div>
 
             {/* 3. Section Performance Rating Card */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
-              <h2 className="text-lg md:text-xl font-bold text-slate-900 mb-6">Section Performance Rating</h2>
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm border border-slate-100">
+              <h2 className="text-base sm:text-lg md:text-xl font-bold text-slate-900 mb-4 sm:mb-6">Section Performance Rating</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
                 {results.sectionRatings?.map((section, idx) => (
-                  <div key={idx} className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+                  <div key={idx} className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
                     <div>
-                      <h3 className="text-[11px] font-bold text-slate-800 tracking-wider uppercase">{section.title}</h3>
-                      <p className="text-xs text-slate-500 mt-1 min-h-[32px] leading-snug">{section.subtitle}</p>
+                      <h3 className="text-[10px] sm:text-[11px] font-bold text-slate-800 tracking-wider uppercase">{section.title}</h3>
+                      <p className="text-xs text-slate-500 mt-1 sm:min-h-[32px] leading-snug">{section.subtitle}</p>
                     </div>
 
                     <div className="mt-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-slate-900">{section.percentage}%</span>
+                        <span className="text-xl sm:text-2xl font-bold text-slate-900">{section.percentage}%</span>
                         <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase border ${
                           section.badgeType === 'success' 
                             ? 'border-green-400 bg-green-50 text-green-700' 
@@ -844,7 +869,7 @@ const AssessmentQuestionPage = () => {
                         />
                       </div>
 
-                      <div className="flex items-center justify-between text-[11px] text-slate-400 font-medium">
+                      <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-400 font-medium">
                         <span>Correct Answers:</span>
                         <span className="font-semibold text-slate-700">{section.score} / {section.total}</span>
                       </div>
@@ -854,31 +879,31 @@ const AssessmentQuestionPage = () => {
               </div>
             </div>
 
-            {/* 4. Recommended Learning Paths (Matching User's Reference Photos) */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+            {/* 4. Recommended Learning Paths */}
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm border border-slate-100">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 sm:mb-6 pb-3 border-b border-slate-100 gap-2">
                 <div>
-                  <h2 className="text-lg md:text-xl font-bold text-slate-900">Recommended Learning Path</h2>
+                  <h2 className="text-base sm:text-lg md:text-xl font-bold text-slate-900">Recommended Learning Path</h2>
                   <p className="text-xs text-slate-500 font-medium mt-0.5">
                     Targeted development areas calibrated for level <span className="font-bold text-[#003a8f]">{results.cefrLevel}</span>
                   </p>
                 </div>
-                <span className="bg-[#003a8f]/10 text-[#003a8f] text-xs font-bold px-3.5 py-1 rounded-full uppercase">
+                <span className="bg-[#003a8f]/10 text-[#003a8f] text-xs font-bold px-3 py-1 rounded-full uppercase self-start sm:self-auto">
                   CEFR {results.cefrLevel}
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                 {learningPathItems.map((item, idx) => (
-                  <div key={idx} className="p-5 rounded-2xl bg-slate-50/90 border border-slate-200/80 flex flex-col justify-between">
+                  <div key={idx} className="p-4 sm:p-5 rounded-2xl bg-slate-50/90 border border-slate-200/80 flex flex-col justify-between">
                     <div>
-                      <div className="w-7 h-7 rounded-lg bg-[#003a8f] text-white text-xs font-bold flex items-center justify-center mb-3">
+                      <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-lg bg-[#003a8f] text-white text-xs font-bold flex items-center justify-center mb-2.5 sm:mb-3">
                         {idx + 1}
                       </div>
-                      <h3 className="text-sm font-bold text-slate-900 leading-snug mb-2">
+                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug mb-1.5 sm:mb-2">
                         {item.title}
                       </h3>
-                      <p className="text-xs text-slate-600 leading-relaxed">
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
                         {item.description}
                       </p>
                     </div>
@@ -893,13 +918,13 @@ const AssessmentQuestionPage = () => {
                 onClick={() => setShowBookingForm(true)}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className="w-full bg-[#003a8f] text-white py-4 rounded-2xl font-bold text-base md:text-lg hover:bg-opacity-95 transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+                className="w-full bg-[#003a8f] text-white py-3.5 sm:py-4 rounded-2xl font-bold text-sm sm:text-base md:text-lg hover:bg-opacity-95 transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
               >
                 <span>Next Step</span>
                 <span>→</span>
               </motion.button>
 
-              <p className="text-xs text-slate-400 text-center mt-6">
+              <p className="text-[10px] sm:text-xs text-slate-400 text-center mt-4 sm:mt-6">
                 C-Suite Communication Assessment Diagnostic Platform • Developed exclusively for Sarah Safaa candidates.
               </p>
             </div>
@@ -914,25 +939,25 @@ const AssessmentQuestionPage = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.02 }}
             transition={{ duration: 0.4 }}
-            className="w-full max-w-[800px] flex flex-col items-center gap-4"
+            className="w-[94%] max-w-[800px] flex flex-col items-center gap-4"
           >
-            <div className="w-full bg-[#dce0e6] rounded-3xl border border-[#c4ced9] shadow-lg p-8 md:p-12 relative overflow-hidden flex flex-col items-center text-center">
+            <div className="w-full bg-[#dce0e6] rounded-2xl sm:rounded-3xl border border-[#c4ced9] shadow-lg p-5 sm:p-8 md:p-12 relative overflow-hidden flex flex-col items-center text-center">
               {renderCategoryIntroWatermark(currentCategory.name)}
 
               <div className="my-2">
-                <span className="text-[#003a8f] text-[110px] md:text-[140px] font-black leading-none font-sans block tracking-tighter drop-shadow-sm">
+                <span className="text-[#003a8f] text-[80px] sm:text-[110px] md:text-[140px] font-black leading-none font-sans block tracking-tighter drop-shadow-sm">
                   {categoryNumber}
                 </span>
               </div>
 
               <div className="flex flex-col items-center gap-1.5 text-[#003a8f] font-sans relative z-10">
-                <p className="text-xl md:text-2xl font-medium tracking-wide">
+                <p className="text-lg sm:text-xl md:text-2xl font-medium tracking-wide">
                   {currentCategory.label}
                 </p>
-                <h2 className="text-2xl md:text-3xl font-bold">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">
                   C-Suite {currentCategory.name} Questions
                 </h2>
-                <p className="text-lg md:text-xl font-medium opacity-90 mt-1">
+                <p className="text-base sm:text-lg md:text-xl font-medium opacity-90 mt-0.5 sm:mt-1">
                   {totalInCategory} questions
                 </p>
               </div>
@@ -944,7 +969,7 @@ const AssessmentQuestionPage = () => {
                 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="mt-8 bg-[#003a8f] text-white font-semibold text-base md:text-lg px-10 py-3.5 rounded-full shadow-md hover:bg-opacity-95 transition-all cursor-pointer relative z-10"
+                className="mt-6 sm:mt-8 bg-[#003a8f] text-white font-semibold text-sm sm:text-base md:text-lg px-8 sm:px-10 py-3 sm:py-3.5 rounded-full shadow-md hover:bg-opacity-95 transition-all cursor-pointer relative z-10"
               >
                 Start Section →
               </motion.button>
@@ -959,21 +984,21 @@ const AssessmentQuestionPage = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="w-full max-w-[960px] flex flex-col relative"
+            className="w-[94%] max-w-[960px] flex flex-col relative"
           >
             {/* Top Indicator & 20s Decreasing Timer Bar */}
-            <div className="flex flex-col items-center mb-5">
+            <div className="flex flex-col items-center mb-4 sm:mb-5">
               
-              <div className="w-full flex items-center justify-between mb-3 px-2">
-                <span className="text-xs font-bold text-[#003a8f] bg-[#003a8f]/10 px-3.5 py-1 rounded-full uppercase tracking-wider">
+              <div className="w-full flex items-center justify-between mb-2.5 sm:mb-3 px-1 sm:px-2">
+                <span className="text-[10px] sm:text-xs font-bold text-[#003a8f] bg-[#003a8f]/10 px-2.5 sm:px-3.5 py-1 rounded-full uppercase tracking-wider">
                   {currentCategory.name}
                 </span>
                 
-                <h2 className="text-2xl md:text-3xl font-bold text-[#003a8f] tracking-tight font-sans">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#003a8f] tracking-tight font-sans">
                   {questionNumberInCategory}/{totalInCategory}
                 </h2>
 
-                <div className={`flex items-center gap-1.5 font-bold text-xs md:text-sm px-3 py-1 rounded-full transition-colors ${
+                <div className={`flex items-center gap-1.5 font-bold text-xs md:text-sm px-2.5 sm:px-3 py-1 rounded-full transition-colors ${
                   timeLeft <= 5 ? 'bg-red-50 text-red-600 animate-pulse' : 'bg-slate-100 text-slate-700'
                 }`}>
                   <FaClock size={12} />
@@ -994,21 +1019,21 @@ const AssessmentQuestionPage = () => {
             </div>
 
             {/* Main Question Card */}
-            <div className="bg-white rounded-2xl md:rounded-3xl border border-[#cbd5e1] p-6 md:p-10 shadow-sm relative overflow-hidden">
+            <div className="bg-white rounded-2xl md:rounded-3xl border border-[#cbd5e1] p-4 sm:p-6 md:p-10 shadow-sm relative overflow-hidden">
               
               {/* Section Customized Watermark */}
               {renderQuestionCardWatermark(currentCategory.name)}
 
               {/* Question Text */}
-              <div className="relative z-10 mb-6">
-                <h3 className="text-base md:text-lg font-medium text-[#003a8f] leading-relaxed">
-                  <span className="mr-2 font-bold">{questionNumberInCategory}.</span>
+              <div className="relative z-10 mb-4 sm:mb-6">
+                <h3 className="text-sm sm:text-base md:text-lg font-medium text-[#003a8f] leading-relaxed">
+                  <span className="mr-1.5 font-bold">{questionNumberInCategory}.</span>
                   {currentQuestion.text}
                 </h3>
               </div>
 
               {/* Options Stack */}
-              <div className="flex flex-col gap-3 md:gap-3.5 relative z-10">
+              <div className="flex flex-col gap-2.5 sm:gap-3 md:gap-3.5 relative z-10">
                 {currentQuestion.options.map((option, idx) => {
                   const isSelected = selectedOption === idx;
                   const letters = ['A', 'B', 'C', 'D'];
@@ -1021,7 +1046,7 @@ const AssessmentQuestionPage = () => {
                         selectedOptionRef.current = idx;
                       }}
                       className={`
-                        w-full min-h-[52px] py-3.5 px-6 rounded-2xl border-2 transition-all flex items-center text-left text-sm md:text-base font-medium cursor-pointer
+                        w-full min-h-[46px] sm:min-h-[52px] py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl border-2 transition-all flex items-center text-left text-xs sm:text-sm md:text-base font-medium cursor-pointer
                         ${isSelected 
                           ? 'bg-[#003a8f] border-[#003a8f] text-white shadow-md' 
                           : 'bg-white border-[#b3cced] text-[#003a8f] hover:bg-[#f5f8fd] hover:border-[#003a8f]'
@@ -1036,13 +1061,13 @@ const AssessmentQuestionPage = () => {
             </div>
 
             {/* Bottom Action Bar (Forward Only) */}
-            <div className="flex justify-end items-center mt-5">
+            <div className="flex justify-end items-center mt-4 sm:mt-5">
               <button 
                 type="button"
                 onClick={() => handleNext(false)}
                 disabled={selectedOption === null || submitting}
                 className={`
-                  px-8 py-3.5 rounded-full font-sans font-medium text-sm md:text-base transition-all shadow-md
+                  w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 rounded-full font-sans font-medium text-xs sm:text-sm md:text-base transition-all shadow-md
                   ${selectedOption !== null && !submitting
                     ? 'bg-[#003a8f] text-white hover:bg-[#002d72] cursor-pointer shadow-md' 
                     : 'bg-slate-300 text-slate-500 cursor-not-allowed'

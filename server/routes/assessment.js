@@ -339,4 +339,23 @@ router.post('/book-speaking', authenticateToken, (req, res) => {
   }
 });
 
+// Log anti-cheat infraction and increment counter in database
+router.post('/log-infraction', authenticateToken, (req, res) => {
+  const { assessmentId, type } = req.body;
+  if (!assessmentId) {
+    return res.status(400).json({ error: 'Missing assessmentId' });
+  }
+  try {
+    const assessment = db.prepare('SELECT id, infractions_count FROM assessments WHERE id = ? AND user_id = ?').get(assessmentId, req.user.id);
+    if (assessment) {
+      db.prepare('UPDATE assessments SET infractions_count = infractions_count + 1 WHERE id = ?').run(assessmentId);
+      return res.json({ success: true, infractionsCount: (assessment.infractions_count || 0) + 1 });
+    }
+    res.status(404).json({ error: 'Assessment not found' });
+  } catch (err) {
+    console.error('Error logging infraction:', err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
 module.exports = router;

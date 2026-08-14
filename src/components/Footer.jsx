@@ -74,7 +74,7 @@ const Footer = () => {
             <>
               <Link to="/assessment/question" className="hover:text-brand-pink transition-colors">Assessment</Link>
               <button 
-                onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); window.location.href = '/'; }} 
+                onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/'); }} 
                 className="hover:text-brand-pink transition-colors cursor-pointer text-base text-brand-pink/90"
               >
                 Logout

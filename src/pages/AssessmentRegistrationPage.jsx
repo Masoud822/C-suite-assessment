@@ -114,20 +114,20 @@ const AssessmentRegistrationPage = () => {
 
   return (
     <div 
-      className="min-h-screen flex flex-col items-center justify-center relative w-full pt-32 pb-24 bg-cover bg-center"
+      className="min-h-screen flex flex-col items-center justify-center relative w-full pt-28 pb-16 md:pt-32 md:pb-24 bg-cover bg-center px-3 sm:px-6"
       style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.85)), url('/london_background.jpg')" }}
     >
       {/* Floating Header */}
-      <div className="absolute top-[28px] left-1/2 -translate-x-1/2 backdrop-blur-[5px] bg-[rgba(255,255,255,0.15)] flex justify-between items-center px-[28px] py-[14px] rounded-[50px] w-full max-w-[1248px] z-10 shadow-sm border border-white/20">
+      <div className="absolute top-4 md:top-[28px] left-1/2 -translate-x-1/2 backdrop-blur-[5px] bg-[rgba(255,255,255,0.25)] flex justify-between items-center px-4 sm:px-6 md:px-[28px] py-2.5 sm:py-3 md:py-[14px] rounded-[50px] w-[94%] max-w-[1248px] z-10 shadow-sm border border-white/30">
         <Link to="/" className="flex flex-col items-center shrink-0">
-          <span className="font-handwriting text-brand-primary leading-none text-4xl md:text-5xl font-normal tracking-wide">
+          <span className="font-handwriting text-brand-primary leading-none text-3xl sm:text-4xl md:text-5xl font-normal tracking-wide">
             Sarah Safaa
           </span>
-          <span className="font-sans leading-[normal] text-brand-primary text-[10px] text-center font-bold tracking-wider uppercase mt-1">
+          <span className="font-sans leading-[normal] text-brand-primary text-[9px] sm:text-[10px] text-center font-bold tracking-wider uppercase mt-0.5">
             C-suite English Mentor
           </span>
         </Link>
-        <div className="flex items-center gap-[32px] text-[18px] text-brand-primary font-medium">
+        <div className="flex items-center gap-4 sm:gap-6 md:gap-[32px] text-sm sm:text-base md:text-[18px] text-brand-primary font-medium">
           <Link to="/" className="font-sans hover:text-brand-pink transition-colors">Home</Link>
           <Link to="/assessment/question" className="font-sans hover:text-brand-pink transition-colors">Assessment</Link>
         </div>
@@ -141,15 +141,15 @@ const AssessmentRegistrationPage = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white rounded-3xl shadow-2xl border border-red-100 max-w-lg w-full p-6 md:p-8 relative overflow-hidden"
+              className="bg-white rounded-3xl shadow-2xl border border-red-100 max-w-lg w-full p-5 sm:p-6 md:p-8 relative overflow-hidden mx-4"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
-                    <FaExclamationTriangle size={24} />
+                  <div className="w-10 sm:w-12 h-10 sm:h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+                    <FaExclamationTriangle size={20} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900">Registration Incomplete</h3>
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900">Registration Incomplete</h3>
                     <p className="text-xs text-slate-500">Please provide all required details to proceed</p>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ const AssessmentRegistrationPage = () => {
                 <p className="text-xs font-bold text-red-800 uppercase tracking-wider mb-2">Required Corrections:</p>
                 <ul className="space-y-1.5">
                   {validationReasons.map((reason, idx) => (
-                    <li key={idx} className="text-sm text-red-700 flex items-start gap-2">
+                    <li key={idx} className="text-xs sm:text-sm text-red-700 flex items-start gap-2">
                       <span className="text-red-500 font-bold">•</span>
                       <span>{reason}</span>
                     </li>
@@ -175,7 +175,7 @@ const AssessmentRegistrationPage = () => {
 
               <button
                 onClick={() => setShowValidationModal(false)}
-                className="w-full h-12 bg-[#003a8f] text-white font-semibold rounded-2xl hover:bg-opacity-95 transition-all shadow-md cursor-pointer"
+                className="w-full h-11 sm:h-12 bg-[#003a8f] text-white font-semibold rounded-2xl hover:bg-opacity-95 transition-all shadow-md cursor-pointer text-sm sm:text-base"
               >
                 Got It, Complete Information
               </button>
@@ -185,11 +185,11 @@ const AssessmentRegistrationPage = () => {
       </AnimatePresence>
 
       {/* Main Content Card */}
-      <div className="bg-[rgba(250,248,246,0.96)] backdrop-blur-md rounded-[32px] shadow-2xl p-8 md:p-12 w-full max-w-[1248px] relative z-10 mx-6 flex flex-col items-center">
+      <div className="bg-[rgba(250,248,246,0.96)] backdrop-blur-md rounded-[24px] sm:rounded-[32px] shadow-2xl p-5 sm:p-8 md:p-12 w-[94%] max-w-[1248px] relative z-10 mx-auto flex flex-col items-center">
         <motion.h1 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="font-sans font-medium text-brand-primary text-[36px] md:text-[40px] text-center mb-10"
+          className="font-sans font-medium text-brand-primary text-2xl sm:text-3xl md:text-[40px] text-center mb-6 sm:mb-8 md:mb-10"
         >
           Personal Information
         </motion.h1>
@@ -200,17 +200,17 @@ const AssessmentRegistrationPage = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-[24px] md:gap-[32px] items-center w-full max-w-[1200px]">
+        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4 sm:gap-6 md:gap-[32px] items-center w-full max-w-[1200px]">
           
           {/* Row 1: Name & Email */}
-          <div className="flex flex-col md:flex-row gap-[24px] w-full items-start">
+          <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-[24px] w-full items-start">
             <div className="w-full">
               <input 
                 type="text" 
                 name="name" 
                 placeholder="Full name*" 
                 required 
-                className="bg-white border border-brand-primary h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-[32px] font-sans text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
+                className="bg-white border border-brand-primary h-[50px] md:h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-5 md:px-[32px] font-sans text-sm md:text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
               />
             </div>
             <div className="w-full flex flex-col">
@@ -220,7 +220,7 @@ const AssessmentRegistrationPage = () => {
                 placeholder="Email*" 
                 required 
                 onChange={() => { if (emailError) setEmailError(''); }}
-                className={`bg-white border h-[56px] rounded-[100px] w-full px-[32px] font-sans text-[16px] placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 transition-all ${
+                className={`bg-white border h-[50px] md:h-[56px] rounded-[100px] w-full px-5 md:px-[32px] font-sans text-sm md:text-[16px] placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 transition-all ${
                   emailError 
                     ? 'border-red-500 text-red-700 ring-2 ring-red-100 shadow-[0px_0px_4px_0px_#ef4444]' 
                     : 'border-brand-primary text-brand-primary shadow-[0px_0px_2px_0px_#6e1f32] focus:ring-brand-pink'
@@ -235,13 +235,13 @@ const AssessmentRegistrationPage = () => {
           </div>
 
           {/* Row 2: WhatsApp & Age */}
-          <div className="flex flex-col md:flex-row gap-[24px] w-full">
+          <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-[24px] w-full">
             <input 
               type="tel" 
               name="phone"
               placeholder="WhatsApp number*" 
               required 
-              className="bg-white border border-brand-primary h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-[32px] font-sans text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
+              className="bg-white border border-brand-primary h-[50px] md:h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-5 md:px-[32px] font-sans text-sm md:text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
             />
             <input 
               type="number" 
@@ -250,18 +250,18 @@ const AssessmentRegistrationPage = () => {
               required 
               min="15"
               max="100"
-              className="bg-white border border-brand-primary h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-[32px] font-sans text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
+              className="bg-white border border-brand-primary h-[50px] md:h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-5 md:px-[32px] font-sans text-sm md:text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
             />
           </div>
 
           {/* Row 3: Country & Role */}
-          <div className="flex flex-col md:flex-row gap-[24px] w-full">
+          <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-[24px] w-full">
             <div className="relative w-full">
               <select 
                 name="country"
                 defaultValue="" 
                 required 
-                className="bg-white border border-brand-primary h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-[32px] font-sans text-[16px] text-brand-primary appearance-none focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all bg-transparent relative z-10 cursor-pointer"
+                className="bg-white border border-brand-primary h-[50px] md:h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-5 md:px-[32px] font-sans text-sm md:text-[16px] text-brand-primary appearance-none focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all bg-transparent relative z-10 cursor-pointer"
               >
                 <option value="" disabled className="text-[rgba(0,58,143,0.4)]">Country*</option>
                 <option value="United States">United States</option>
@@ -277,7 +277,7 @@ const AssessmentRegistrationPage = () => {
                 <option value="Other">Other</option>
               </select>
               <div className="absolute right-[24px] top-1/2 -translate-y-1/2 pointer-events-none z-0 opacity-60 text-brand-primary">
-                <FaChevronDown size={20} />
+                <FaChevronDown size={18} />
               </div>
             </div>
             <input 
@@ -285,23 +285,23 @@ const AssessmentRegistrationPage = () => {
               name="job_title"
               placeholder="Job title / Role*" 
               required 
-              className="bg-white border border-brand-primary h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-[32px] font-sans text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
+              className="bg-white border border-brand-primary h-[50px] md:h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-5 md:px-[32px] font-sans text-sm md:text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
             />
           </div>
 
           {/* Row 4: Company & LinkedIn */}
-          <div className="flex flex-col md:flex-row gap-[24px] w-full">
+          <div className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-[24px] w-full">
             <input 
               type="text" 
               name="company"
               placeholder="Company" 
-              className="bg-white border border-brand-primary h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-[32px] font-sans text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
+              className="bg-white border border-brand-primary h-[50px] md:h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-5 md:px-[32px] font-sans text-sm md:text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
             />
             <input 
               type="url" 
               name="linkedin"
               placeholder="LinkedIn Profile link" 
-              className="bg-white border border-brand-primary h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-[32px] font-sans text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
+              className="bg-white border border-brand-primary h-[50px] md:h-[56px] rounded-[100px] shadow-[0px_0px_2px_0px_#6e1f32] w-full px-5 md:px-[32px] font-sans text-sm md:text-[16px] text-brand-primary placeholder:text-[rgba(0,58,143,0.4)] focus:outline-none focus:ring-2 focus:ring-brand-pink transition-all" 
             />
           </div>
 
@@ -311,7 +311,7 @@ const AssessmentRegistrationPage = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={loading}
-            className={`text-brand-light font-sans font-medium text-[18px] h-[56px] px-[56px] rounded-[100px] mt-6 shadow-lg transition-all cursor-pointer ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-brand-primary hover:bg-opacity-90'}`}
+            className={`text-brand-light font-sans font-medium text-base md:text-[18px] h-[50px] md:h-[56px] px-8 md:px-[56px] rounded-[100px] mt-4 sm:mt-6 shadow-lg transition-all cursor-pointer w-full sm:w-auto ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-brand-primary hover:bg-opacity-90'}`}
           >
             {loading ? 'Starting Assessment...' : 'Start Assessment →'}
           </motion.button>
