@@ -114,56 +114,35 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/",
-      "score": 4,
+      "score": 0,
       "total_questions": 30,
-      "cefr_level": "B1",
-      "c_suite_level": "Emerging Professional",
-      "infractions_count": 1,
-      "status": "COMPLETED",
-      "started_at": "2026-08-14T19:46:39.347Z",
-      "completed_at": "2026-08-14T19:46:39.347Z",
+      "cefr_level": "In Progress",
+      "c_suite_level": "1/30 Answered",
+      "infractions_count": 0,
+      "status": "IN_PROGRESS",
+      "started_at": "2026-08-14T20:01:47.089Z",
+      "completed_at": null,
       "answers": {
-        "1": -1,
-        "2": -1,
-        "3": -1,
-        "4": -1,
-        "5": -1,
-        "6": -1,
-        "7": -1,
-        "8": -1,
-        "9": -1,
-        "10": -1,
-        "11": -1,
-        "12": -1,
-        "13": -1,
-        "14": -1,
-        "15": -1,
-        "16": -1,
-        "17": -1,
-        "18": -1,
-        "19": -1,
-        "20": -1,
-        "21": -1,
-        "22": -1,
-        "23": -1,
-        "24": 3,
-        "25": 2,
-        "26": 1,
-        "27": 1,
-        "28": 1,
-        "29": 2,
-        "30": 1
+        "1": 1
       },
       "report": {
-        "score": 4,
-        "totalQuestions": 30,
-        "accuracy": 13,
-        "cefrLevel": "B1",
-        "cSuiteStage": {
-          "title": "Emerging Professional",
-          "description": "Developing conversational and technical English, but struggling with boardroom nuance and persuasion."
+        "candidate": {
+          "name": "AbdelRahman Mohamed",
+          "email": "sim.abdelrahmanmohamed69792@alexu.edu.eg",
+          "role": "ui",
+          "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/"
         },
-        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (13% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
+        "score": 0,
+        "totalQuestions": 30,
+        "accuracy": 0,
+        "scoreOutOf40": 0,
+        "cefrLevel": "A1−",
+        "cSuiteStage": {
+          "title": "Starting Communicator",
+          "description": "Can communicate using a limited range of familiar words and expressions."
+        },
+        "oneLineExplanation": "Can communicate using a limited range of familiar words and expressions.",
+        "diagnosticSummary": "You currently rely on a small range of familiar words, expressions, and simple sentence patterns. You may need substantial support to construct and sustain basic communication beyond highly familiar situations.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -189,25 +168,39 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 4,
+            "score": 0,
             "total": 10,
-            "percentage": 40,
+            "percentage": 0,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           }
         ],
         "recommendedPath": [
           {
-            "title": "Advanced Grammar Precision",
-            "description": "Refine tense selection, complex structures, sentence control, and spontaneous accuracy."
+            "title": "Core English Foundations",
+            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
           },
           {
-            "title": "Executive Vocabulary & Collocations",
-            "description": "Replace generic language with precise, natural professional language."
+            "title": "Workplace Survival Communication",
+            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
           },
           {
-            "title": "Executive Communication Strategy",
-            "description": "Influence, disagreement, negotiation, leadership, and high-stakes meetings."
+            "title": "Professional Sentence Production",
+            "description": "Move from isolated language to short, accurate professional statements and responses."
+          }
+        ],
+        "learningPath": [
+          {
+            "title": "Core English Foundations",
+            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
+          },
+          {
+            "title": "Workplace Survival Communication",
+            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
+          },
+          {
+            "title": "Professional Sentence Production",
+            "description": "Move from isolated language to short, accurate professional statements and responses."
           }
         ]
       }
