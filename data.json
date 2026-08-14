@@ -220,13 +220,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/",
-      "score": 14,
+      "score": 15,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "28/30 Answered",
+      "c_suite_level": "29/30 Answered",
       "infractions_count": 2,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T19:59:33.042Z",
+      "started_at": "2026-08-14T19:59:36.208Z",
       "completed_at": null,
       "answers": {
         "1": 1,
@@ -256,7 +256,8 @@
         "25": 2,
         "26": 1,
         "27": 2,
-        "28": 1
+        "28": 1,
+        "29": 2
       },
       "report": {
         "candidate": {
@@ -265,10 +266,10 @@
           "role": "ux",
           "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/"
         },
-        "score": 14,
+        "score": 15,
         "totalQuestions": 30,
-        "accuracy": 47,
-        "scoreOutOf40": 19,
+        "accuracy": 50,
+        "scoreOutOf40": 20,
         "cefrLevel": "A2",
         "cSuiteStage": {
           "title": "Operational Communicator",
@@ -301,9 +302,9 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 8,
+            "score": 9,
             "total": 10,
-            "percentage": 80,
+            "percentage": 90,
             "badge": "STRONG",
             "badgeType": "success"
           }
