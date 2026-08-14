@@ -11,16 +11,17 @@
       "score": 0,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "4/30 Answered",
+      "c_suite_level": "5/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T19:50:56.293Z",
+      "started_at": "2026-08-14T19:51:00.259Z",
       "completed_at": null,
       "answers": {
         "1": 2,
         "2": 2,
         "3": 1,
-        "4": 1
+        "4": 1,
+        "5": 3
       },
       "report": {
         "score": 0,
