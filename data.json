@@ -8,14 +8,14 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 16,
+      "score": 17,
       "total_questions": 30,
-      "cefr_level": "In Progress",
-      "c_suite_level": "29/30 Answered",
+      "cefr_level": "B1",
+      "c_suite_level": "Emerging Professional",
       "infractions_count": 1,
-      "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T19:52:30.116Z",
-      "completed_at": null,
+      "status": "COMPLETED",
+      "started_at": "2026-08-14T19:52:33.716Z",
+      "completed_at": "2026-08-14T19:52:33.716Z",
       "answers": {
         "1": 2,
         "2": 2,
@@ -45,18 +45,19 @@
         "26": 1,
         "27": 2,
         "28": 1,
-        "29": 2
+        "29": 2,
+        "30": 2
       },
       "report": {
-        "score": 16,
+        "score": 17,
         "totalQuestions": 30,
-        "accuracy": 53,
+        "accuracy": 57,
         "cefrLevel": "B1",
         "cSuiteStage": {
           "title": "Emerging Professional",
           "description": "Developing conversational and technical English, but struggling with boardroom nuance and persuasion."
         },
-        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (53% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
+        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (57% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -82,9 +83,9 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 9,
+            "score": 10,
             "total": 10,
-            "percentage": 90,
+            "percentage": 100,
             "badge": "STRONG",
             "badgeType": "success"
           }
