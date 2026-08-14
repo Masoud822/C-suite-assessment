@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 8,
+      "score": 9,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "20/30 Answered",
+      "c_suite_level": "21/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T20:24:51.430Z",
+      "started_at": "2026-08-14T20:24:56.038Z",
       "completed_at": null,
       "answers": {
         "1": 2,
@@ -36,7 +36,8 @@
         "17": 1,
         "18": 2,
         "19": 1,
-        "20": 2
+        "20": 2,
+        "21": 1
       },
       "report": {
         "candidate": {
@@ -45,10 +46,10 @@
           "role": "Student",
           "linkedin": ""
         },
-        "score": 8,
+        "score": 9,
         "totalQuestions": 30,
-        "accuracy": 27,
-        "scoreOutOf40": 11,
+        "accuracy": 30,
+        "scoreOutOf40": 12,
         "cefrLevel": "A1+",
         "cSuiteStage": {
           "title": "Basic Communicator",
@@ -81,9 +82,9 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 0,
+            "score": 1,
             "total": 10,
-            "percentage": 0,
+            "percentage": 10,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           }
