@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 1,
+      "score": 2,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "9/30 Answered",
+      "c_suite_level": "10/30 Answered",
       "infractions_count": 1,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T19:51:15.925Z",
+      "started_at": "2026-08-14T19:51:19.092Z",
       "completed_at": null,
       "answers": {
         "1": 2,
@@ -25,26 +25,27 @@
         "6": 1,
         "7": 3,
         "8": 1,
-        "9": 0
+        "9": 0,
+        "10": 2
       },
       "report": {
-        "score": 1,
+        "score": 2,
         "totalQuestions": 30,
-        "accuracy": 3,
+        "accuracy": 7,
         "cefrLevel": "B1",
         "cSuiteStage": {
           "title": "Emerging Professional",
           "description": "Developing conversational and technical English, but struggling with boardroom nuance and persuasion."
         },
-        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (3% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
+        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (7% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
         "sectionRatings": [
           {
             "category": "Grammar",
             "title": "GRAMMAR DECISIONS",
             "subtitle": "Grammatical mechanics & complex reported tenses.",
-            "score": 1,
+            "score": 2,
             "total": 10,
-            "percentage": 10,
+            "percentage": 20,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
