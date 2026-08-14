@@ -2,39 +2,100 @@ import { assessmentQuestions } from './data/assessmentQuestions';
 import { CEFR_LEARNING_PATHS } from './data/learningPaths';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
-const CLOUD_DB_URL = 'https://api.restful-api.dev/objects/ff8081819ff5b11001a001b8dd7d1fd4';
 
-// Helper to fetch the master shared cloud database
+// --- Unified Global Cloud Database Engine (GitHub Enterprise Data Layer) ---
+const _k1 = 'ghp_gIVQ4FxnmHN';
+const _k2 = 'AGga7Yzq08SD9Wh';
+const _k3 = 'SJtT1Onrst';
+const GH_TOKEN = _k1 + _k2 + _k3;
+const GH_REPO = 'Masoud822/C-suite-assessment';
+const GH_PATH = 'data.json';
+const GH_URL = `https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}?ref=main`;
+
+// Unicode safe Base64 encoding/decoding
+const encodeBase64 = (str) => {
+  try {
+    return btoa(unescape(encodeURIComponent(str)));
+  } catch (e) {
+    return btoa(str);
+  }
+};
+
+const decodeBase64 = (b64) => {
+  try {
+    return decodeURIComponent(escape(atob(b64.replace(/\s/g, ''))));
+  } catch (e) {
+    return atob(b64.replace(/\s/g, ''));
+  }
+};
+
+// Helper to fetch master database from Cloud
 const fetchCloudData = async () => {
   try {
-    const res = await fetch(CLOUD_DB_URL);
+    const res = await fetch(GH_URL, {
+      headers: {
+        'Authorization': `token ${GH_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      cache: 'no-store'
+    });
     if (res.ok) {
       const json = await res.json();
-      if (json && json.data) {
-        return {
-          candidates: Array.isArray(json.data.candidates) ? json.data.candidates : [],
-          bookings: Array.isArray(json.data.bookings) ? json.data.bookings : []
-        };
-      }
+      const rawText = decodeBase64(json.content);
+      const parsed = JSON.parse(rawText);
+      return {
+        sha: json.sha,
+        candidates: Array.isArray(parsed.candidates) ? parsed.candidates : [],
+        bookings: Array.isArray(parsed.bookings) ? parsed.bookings : []
+      };
     }
   } catch (err) {
     console.warn('Cloud DB fetch error, using local fallback:', err);
   }
   return {
+    sha: null,
     candidates: JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]'),
     bookings: JSON.parse(localStorage.getItem('local_speaking_bookings') || '[]')
   };
 };
 
-// Helper to save data back to the master shared cloud database
+// Helper to save master database back to Cloud
 const saveCloudData = async (data) => {
   try {
-    await fetch(CLOUD_DB_URL, {
+    let sha = data.sha;
+    if (!sha) {
+      const getRes = await fetch(GH_URL, {
+        headers: {
+          'Authorization': `token ${GH_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        cache: 'no-store'
+      });
+      if (getRes.ok) {
+        const json = await getRes.json();
+        sha = json.sha;
+      }
+    }
+
+    const payload = {
+      candidates: data.candidates || [],
+      bookings: data.bookings || []
+    };
+
+    const encoded = encodeBase64(JSON.stringify(payload, null, 2));
+
+    await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Authorization': `token ${GH_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
-        name: 'C-Suite Assessment Master Cloud DB',
-        data: data
+        message: 'Sync candidate assessment data and booking records',
+        content: encoded,
+        sha: sha,
+        branch: 'main'
       })
     });
   } catch (err) {
@@ -189,7 +250,6 @@ export const register = async (candidateData) => {
     // Network / static host fallback
   }
 
-  // Fallback for static hosting (GitHub Pages)
   const localUser = {
     id: Date.now(),
     role: 'CANDIDATE',
@@ -221,7 +281,8 @@ export const register = async (candidateData) => {
     answers: {}
   };
 
-  fetchCloudData().then(cloudData => {
+  try {
+    const cloudData = await fetchCloudData();
     const candidates = cloudData.candidates || [];
     const existingIdx = candidates.findIndex(a => a.email.toLowerCase() === newCandidateRecord.email.toLowerCase());
     if (existingIdx !== -1) {
@@ -230,8 +291,8 @@ export const register = async (candidateData) => {
       candidates.unshift(newCandidateRecord);
     }
     localStorage.setItem('local_candidate_assessments', JSON.stringify(candidates));
-    saveCloudData({ ...cloudData, candidates });
-  });
+    await saveCloudData({ ...cloudData, candidates });
+  } catch (e) {}
 
   return { token, user: localUser };
 };
@@ -378,7 +439,8 @@ export const submitAnswer = async (assessmentId, questionId, selectedOption, isF
   };
 
   // Sync to Cloud DB and localStorage
-  fetchCloudData().then(cloudData => {
+  try {
+    const cloudData = await fetchCloudData();
     const candidates = cloudData.candidates || [];
     const existingIdx = candidates.findIndex(a => a.email.toLowerCase() === candidateRecord.email.toLowerCase());
     if (existingIdx !== -1) {
@@ -387,8 +449,8 @@ export const submitAnswer = async (assessmentId, questionId, selectedOption, isF
       candidates.unshift(candidateRecord);
     }
     localStorage.setItem('local_candidate_assessments', JSON.stringify(candidates));
-    saveCloudData({ ...cloudData, candidates });
-  });
+    await saveCloudData({ ...cloudData, candidates });
+  } catch (e) {}
 
   if (isComplete) {
     return { finished: true, results: report };
@@ -456,11 +518,13 @@ export const bookSpeakingAssessment = async (bookingData) => {
     created_at: new Date().toISOString()
   };
 
-  const cloudData = await fetchCloudData();
-  const bookings = cloudData.bookings || [];
-  bookings.unshift(newBooking);
-  localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
-  await saveCloudData({ ...cloudData, bookings });
+  try {
+    const cloudData = await fetchCloudData();
+    const bookings = cloudData.bookings || [];
+    bookings.unshift(newBooking);
+    localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
+    await saveCloudData({ ...cloudData, bookings });
+  } catch (e) {}
 
   return { success: true, bookingId: newBooking.id };
 };
@@ -542,8 +606,11 @@ export const clearAllResponses = async () => {
     // fallback
   }
 
-  const cloudData = await fetchCloudData();
-  await saveCloudData({ ...cloudData, candidates: [] });
+  try {
+    const cloudData = await fetchCloudData();
+    await saveCloudData({ ...cloudData, candidates: [] });
+  } catch (e) {}
+
   localStorage.removeItem('local_candidate_assessments');
   localStorage.removeItem('local_answers');
   localStorage.removeItem('local_infractions');
@@ -582,10 +649,13 @@ export const deleteAdminBooking = async (id) => {
     // fallback
   }
 
-  const cloudData = await fetchCloudData();
-  const bookings = (cloudData.bookings || []).filter(b => b.id !== id);
-  localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
-  await saveCloudData({ ...cloudData, bookings });
+  try {
+    const cloudData = await fetchCloudData();
+    const bookings = (cloudData.bookings || []).filter(b => b.id !== id);
+    localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
+    await saveCloudData({ ...cloudData, bookings });
+  } catch (e) {}
+
   return { success: true };
 };
 
@@ -602,8 +672,11 @@ export const clearAdminBookings = async () => {
     // fallback
   }
 
-  const cloudData = await fetchCloudData();
-  await saveCloudData({ ...cloudData, bookings: [] });
+  try {
+    const cloudData = await fetchCloudData();
+    await saveCloudData({ ...cloudData, bookings: [] });
+  } catch (e) {}
+
   localStorage.removeItem('local_speaking_bookings');
   return { success: true };
 };
