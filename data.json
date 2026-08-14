@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/",
-      "score": 3,
+      "score": 4,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "28/30 Answered",
+      "c_suite_level": "29/30 Answered",
       "infractions_count": 1,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T19:46:32.380Z",
+      "started_at": "2026-08-14T19:46:35.839Z",
       "completed_at": null,
       "answers": {
         "1": -1,
@@ -44,18 +44,19 @@
         "25": 2,
         "26": 1,
         "27": 1,
-        "28": 1
+        "28": 1,
+        "29": 2
       },
       "report": {
-        "score": 3,
+        "score": 4,
         "totalQuestions": 30,
-        "accuracy": 10,
+        "accuracy": 13,
         "cefrLevel": "B1",
         "cSuiteStage": {
           "title": "Emerging Professional",
           "description": "Developing conversational and technical English, but struggling with boardroom nuance and persuasion."
         },
-        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (10% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
+        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (13% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -81,9 +82,9 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 3,
+            "score": 4,
             "total": 10,
-            "percentage": 30,
+            "percentage": 40,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           }
