@@ -28,6 +28,13 @@ const AssessmentRegistrationPage = () => {
     }
   }, [navigate]);
 
+  const normalizeDigits = (str) => {
+    if (!str) return '';
+    return str
+      .replace(/[\u0660-\u0669]/g, c => c.charCodeAt(0) - 0x0660)
+      .replace(/[\u06F0-\u06F9]/g, c => c.charCodeAt(0) - 0x06F0);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -36,8 +43,8 @@ const AssessmentRegistrationPage = () => {
     const formData = new FormData(e.target);
     const name = formData.get('name')?.trim() || '';
     const email = formData.get('email')?.trim() || '';
-    const phone = formData.get('phone')?.trim() || '';
-    const age = formData.get('age')?.trim() || '';
+    const phone = normalizeDigits(formData.get('phone')?.trim() || '');
+    const age = normalizeDigits(formData.get('age')?.trim() || '');
     const country = formData.get('country') || '';
     const job_title = formData.get('job_title')?.trim() || '';
     const company = formData.get('company')?.trim() || '';
@@ -56,13 +63,8 @@ const AssessmentRegistrationPage = () => {
       setEmailError('Please enter a valid email address');
     }
 
-    if (!phone || phone.length < 6) {
+    if (!phone || phone.replace(/\D/g, '').length < 4) {
       reasons.push('WhatsApp / Phone number is required.');
-    }
-
-    const ageNum = parseInt(age, 10);
-    if (!age || isNaN(ageNum) || ageNum < 15 || ageNum > 100) {
-      reasons.push('Please provide a valid Age between 15 and 100.');
     }
 
     if (!country) {
@@ -71,6 +73,13 @@ const AssessmentRegistrationPage = () => {
 
     if (!job_title || job_title.length < 2) {
       reasons.push('Job title / Role is required.');
+    }
+
+    if (age) {
+      const ageNum = parseInt(age, 10);
+      if (isNaN(ageNum) || ageNum < 12 || ageNum > 120) {
+        reasons.push('Please provide a valid Age.');
+      }
     }
 
     // If any validation failed, trigger the popup modal and DO NOT start the assessment
@@ -88,8 +97,8 @@ const AssessmentRegistrationPage = () => {
       name,
       email,
       phone,
-      age,
-      country,
+      age: age || '30',
+      country: country || 'Other',
       job_title,
       company,
       linkedin: formattedLinkedin
