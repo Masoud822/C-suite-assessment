@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 11,
+      "score": 12,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "26/30 Answered",
+      "c_suite_level": "27/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T20:16:58.681Z",
+      "started_at": "2026-08-14T20:17:02.890Z",
       "completed_at": null,
       "answers": {
         "1": 3,
@@ -42,7 +42,8 @@
         "23": 2,
         "24": 2,
         "25": 2,
-        "26": 1
+        "26": 1,
+        "27": 2
       },
       "report": {
         "candidate": {
@@ -51,10 +52,10 @@
           "role": "ceo",
           "linkedin": ""
         },
-        "score": 11,
+        "score": 12,
         "totalQuestions": 30,
-        "accuracy": 37,
-        "scoreOutOf40": 15,
+        "accuracy": 40,
+        "scoreOutOf40": 16,
         "cefrLevel": "A2−",
         "cSuiteStage": {
           "title": "Functional Communicator",
@@ -87,11 +88,11 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 5,
+            "score": 6,
             "total": 10,
-            "percentage": 50,
-            "badge": "NEEDS IMPROVEMENT",
-            "badgeType": "warning"
+            "percentage": 60,
+            "badge": "COMPETENT",
+            "badgeType": "info"
           }
         ],
         "recommendedPath": [
