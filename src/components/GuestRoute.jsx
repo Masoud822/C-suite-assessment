@@ -10,9 +10,8 @@ const GuestRoute = ({ children }) => {
       if (user?.role === 'ADMIN') {
         return <Navigate to="/admin" replace />;
       }
-      return <Navigate to="/assessment/question" replace />;
     } catch {
-      return <Navigate to="/assessment/question" replace />;
+      // ignore
     }
   }
 

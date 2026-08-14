@@ -19,11 +19,9 @@ const AssessmentRegistrationPage = () => {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
         if (user?.role === 'ADMIN') {
           navigate('/admin', { replace: true });
-        } else {
-          navigate('/assessment/question', { replace: true });
         }
       } catch {
-        navigate('/assessment/question', { replace: true });
+        // ignore
       }
     }
   }, [navigate]);
@@ -106,6 +104,9 @@ const AssessmentRegistrationPage = () => {
 
     try {
       const data = await register(candidateData);
+      localStorage.removeItem('local_answers');
+      localStorage.removeItem('local_infractions');
+      localStorage.removeItem('local_booking');
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       navigate('/assessment/question');
