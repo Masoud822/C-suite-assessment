@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 6,
+      "score": 7,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "17/30 Answered",
+      "c_suite_level": "18/30 Answered",
       "infractions_count": 1,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T19:51:47.300Z",
+      "started_at": "2026-08-14T19:51:50.242Z",
       "completed_at": null,
       "answers": {
         "1": 2,
@@ -33,18 +33,19 @@
         "14": 1,
         "15": 2,
         "16": 0,
-        "17": 2
+        "17": 2,
+        "18": 0
       },
       "report": {
-        "score": 6,
+        "score": 7,
         "totalQuestions": 30,
-        "accuracy": 20,
+        "accuracy": 23,
         "cefrLevel": "B1",
         "cSuiteStage": {
           "title": "Emerging Professional",
           "description": "Developing conversational and technical English, but struggling with boardroom nuance and persuasion."
         },
-        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (20% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
+        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (23% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -60,9 +61,9 @@
             "category": "Vocabulary",
             "title": "C-SUITE LEXICAL RESOURCE",
             "subtitle": "Precision corporate collocations & registry.",
-            "score": 4,
+            "score": 5,
             "total": 10,
-            "percentage": 40,
+            "percentage": 50,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
