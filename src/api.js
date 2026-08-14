@@ -378,8 +378,26 @@ export const bookSpeakingAssessment = async (bookingData) => {
   } catch (err) {
     // fallback
   }
-  localStorage.setItem('local_booking', JSON.stringify(bookingData));
-  return { success: true, bookingId: Date.now() };
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const stored = JSON.parse(localStorage.getItem('local_speaking_bookings') || '[]');
+  const newBooking = {
+    id: Date.now(),
+    user_id: user?.id || Date.now(),
+    name: user?.name || 'Candidate',
+    email: user?.email || 'candidate@example.com',
+    phone: user?.phone || '',
+    company: user?.company || '',
+    linkedin: bookingData.linkedin || user?.linkedin || '',
+    preferred_time: bookingData.preferredTime || '',
+    current_role: bookingData.currentRole || '',
+    communication_frequency: bookingData.communicationFrequency || '',
+    why_now: bookingData.whyNow || '',
+    created_at: new Date().toISOString()
+  };
+  stored.unshift(newBooking);
+  localStorage.setItem('local_speaking_bookings', JSON.stringify(stored));
+  return { success: true, bookingId: newBooking.id };
 };
 
 export const getAdminUsers = async () => {
@@ -459,6 +477,59 @@ export const clearAllResponses = async () => {
   localStorage.removeItem('local_answers');
   localStorage.removeItem('local_infractions');
   localStorage.removeItem('local_booking');
+  return { success: true };
+};
+
+export const getAdminBookings = async () => {
+  try {
+    const res = await fetch(`${API_URL}/admin/bookings`, {
+      method: 'GET',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const stored = JSON.parse(localStorage.getItem('local_speaking_bookings') || '[]');
+  return stored;
+};
+
+export const deleteAdminBooking = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/admin/bookings/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const stored = JSON.parse(localStorage.getItem('local_speaking_bookings') || '[]');
+  const filtered = stored.filter(b => b.id !== id);
+  localStorage.setItem('local_speaking_bookings', JSON.stringify(filtered));
+  return { success: true };
+};
+
+export const clearAdminBookings = async () => {
+  try {
+    const res = await fetch(`${API_URL}/admin/clear-bookings`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  localStorage.removeItem('local_speaking_bookings');
   return { success: true };
 };
 
@@ -566,91 +637,5 @@ export const deleteQuestion = async (id) => {
   const questions = await getAdminQuestions();
   const filtered = questions.filter(q => q.id !== id);
   localStorage.setItem('local_custom_questions', JSON.stringify(filtered));
-  return { success: true };
-};
-
-// --- Contact / Get in Touch Messages API ---
-
-export const submitContactMessage = async (messageData) => {
-  try {
-    const res = await fetch(`${API_URL}/contact`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(messageData)
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
-  // Local fallback for static hosting
-  const stored = JSON.parse(localStorage.getItem('local_contact_messages') || '[]');
-  const newMessage = {
-    id: Date.now(),
-    name: messageData.name,
-    email: messageData.email,
-    phone: messageData.phone || '',
-    company: messageData.company || '',
-    subject: messageData.subject || 'General Inquiry',
-    message: messageData.message,
-    created_at: new Date().toISOString()
-  };
-  stored.unshift(newMessage);
-  localStorage.setItem('local_contact_messages', JSON.stringify(stored));
-  return { success: true, messageId: newMessage.id };
-};
-
-export const getAdminMessages = async () => {
-  try {
-    const res = await fetch(`${API_URL}/admin/messages`, {
-      method: 'GET',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
-  const stored = JSON.parse(localStorage.getItem('local_contact_messages') || '[]');
-  return stored;
-};
-
-export const deleteAdminMessage = async (id) => {
-  try {
-    const res = await fetch(`${API_URL}/admin/messages/${id}`, {
-      method: 'DELETE',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
-  const stored = JSON.parse(localStorage.getItem('local_contact_messages') || '[]');
-  const filtered = stored.filter(m => m.id !== id);
-  localStorage.setItem('local_contact_messages', JSON.stringify(filtered));
-  return { success: true };
-};
-
-export const clearAdminMessages = async () => {
-  try {
-    const res = await fetch(`${API_URL}/admin/clear-messages`, {
-      method: 'POST',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
-  localStorage.removeItem('local_contact_messages');
   return { success: true };
 };

@@ -8,9 +8,9 @@ import {
   deleteQuestion, 
   getAdminAssessmentDetails, 
   clearAllResponses,
-  getAdminMessages,
-  deleteAdminMessage,
-  clearAdminMessages
+  getAdminBookings,
+  deleteAdminBooking,
+  clearAdminBookings
 } from '../api';
 import { 
   FaUserShield, 
@@ -25,14 +25,19 @@ import {
   FaPhone, 
   FaBuilding, 
   FaEye,
-  FaWhatsapp
+  FaWhatsapp,
+  FaCalendarAlt,
+  FaLinkedin,
+  FaClock,
+  FaBriefcase,
+  FaCommentDots
 } from 'react-icons/fa';
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState('candidates'); // 'candidates', 'questions', or 'messages'
+  const [activeTab, setActiveTab] = useState('candidates'); // 'candidates', 'bookings', or 'questions'
   const [assessments, setAssessments] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [messages, setMessages] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -49,7 +54,7 @@ const AdminDashboard = () => {
   });
 
   const [detailsModal, setDetailsModal] = useState(null);
-  const [selectedMessageModal, setSelectedMessageModal] = useState(null);
+  const [selectedBookingModal, setSelectedBookingModal] = useState(null);
 
   const fetchDashboardData = async () => {
     try {
@@ -66,14 +71,14 @@ const AdminDashboard = () => {
       }
 
       setLoading(true);
-      const [assData, qData, msgData] = await Promise.all([
+      const [assData, qData, bookData] = await Promise.all([
         getAdminAssessments(),
         getAdminQuestions(),
-        getAdminMessages()
+        getAdminBookings()
       ]);
       setAssessments(assData || []);
       setQuestions(qData || []);
-      setMessages(msgData || []);
+      setBookings(bookData || []);
     } catch (err) {
       setError(err.message || 'Failed to fetch dashboard data');
     } finally {
@@ -106,31 +111,31 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleClearMessages = async () => {
-    if (window.confirm("Are you sure you want to permanently delete all Get in Touch messages?")) {
+  const handleClearBookings = async () => {
+    if (window.confirm("Are you sure you want to permanently delete all speaking assessment booking meeting forms?")) {
       try {
         setLoading(true);
-        await clearAdminMessages();
-        setMessages([]);
-        alert("All Get in Touch messages have been cleared.");
+        await clearAdminBookings();
+        setBookings([]);
+        alert("All booking meeting forms have been cleared.");
       } catch (err) {
-        alert("Error clearing messages: " + err.message);
+        alert("Error clearing bookings: " + err.message);
       } finally {
         setLoading(false);
       }
     }
   };
 
-  const handleDeleteMessage = async (id) => {
-    if (window.confirm("Are you sure you want to delete this message?")) {
+  const handleDeleteBooking = async (id) => {
+    if (window.confirm("Are you sure you want to delete this booking meeting form?")) {
       try {
-        await deleteAdminMessage(id);
-        setMessages(messages.filter(m => m.id !== id));
-        if (selectedMessageModal?.id === id) {
-          setSelectedMessageModal(null);
+        await deleteAdminBooking(id);
+        setBookings(bookings.filter(b => b.id !== id));
+        if (selectedBookingModal?.id === id) {
+          setSelectedBookingModal(null);
         }
       } catch (err) {
-        alert("Failed to delete message: " + err.message);
+        alert("Failed to delete booking: " + err.message);
       }
     }
   };
@@ -233,7 +238,7 @@ const AdminDashboard = () => {
             <FaUserShield size={32} />
             <div>
               <h1 className="text-2xl sm:text-3xl font-sans font-bold">Admin Dashboard</h1>
-              <p className="text-xs text-gray-500 font-medium">Executive Assessment Diagnostics & Inquiry Management</p>
+              <p className="text-xs text-gray-500 font-medium">Executive Assessment Diagnostics & Booking Management</p>
             </div>
           </div>
 
@@ -257,13 +262,13 @@ const AdminDashboard = () => {
               </button>
             )}
 
-            {activeTab === 'messages' && (
+            {activeTab === 'bookings' && (
               <button 
-                onClick={handleClearMessages}
+                onClick={handleClearBookings}
                 className="px-3.5 sm:px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-medium text-xs sm:text-sm shadow-sm cursor-pointer flex items-center gap-1.5"
               >
                 <FaTrash size={12} />
-                <span>Clear All Messages</span>
+                <span>Clear All Bookings</span>
               </button>
             )}
 
@@ -300,16 +305,17 @@ const AdminDashboard = () => {
           </button>
 
           <button
-            onClick={() => setActiveTab('messages')}
+            onClick={() => setActiveTab('bookings')}
             className={`px-4 sm:px-6 py-3 rounded-t-lg font-semibold transition-colors border-b-2 text-xs sm:text-sm flex items-center gap-2 ${
-              activeTab === 'messages' 
+              activeTab === 'bookings' 
                 ? 'bg-white text-brand-primary border-brand-primary shadow-sm' 
                 : 'bg-gray-100 text-gray-500 border-transparent hover:bg-gray-200'
             }`}
           >
-            <span>Get in Touch Responses</span>
-            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${messages.length > 0 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-              {messages.length}
+            <FaCalendarAlt size={14} />
+            <span>Booking Meeting Forms</span>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${bookings.length > 0 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+              {bookings.length}
             </span>
           </button>
 
@@ -395,67 +401,73 @@ const AdminDashboard = () => {
             </div>
           )}
 
-          {/* 2. GET IN TOUCH MESSAGES TAB */}
-          {activeTab === 'messages' && (
+          {/* 2. BOOKING MEETING FORMS TAB */}
+          {activeTab === 'bookings' && (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50 text-gray-600 text-xs sm:text-sm">
                   <tr>
-                    <th className="px-6 py-4 font-medium">Sender Name</th>
+                    <th className="px-6 py-4 font-medium">Candidate Name</th>
                     <th className="px-6 py-4 font-medium">Email</th>
-                    <th className="px-6 py-4 font-medium">Phone / WhatsApp</th>
-                    <th className="px-6 py-4 font-medium">Company</th>
-                    <th className="px-6 py-4 font-medium">Subject</th>
-                    <th className="px-6 py-4 font-medium">Message Preview</th>
-                    <th className="px-6 py-4 font-medium">Received At</th>
+                    <th className="px-6 py-4 font-medium">Preferred Time</th>
+                    <th className="px-6 py-4 font-medium">Current Role</th>
+                    <th className="px-6 py-4 font-medium">Frequency</th>
+                    <th className="px-6 py-4 font-medium">LinkedIn</th>
+                    <th className="px-6 py-4 font-medium">Why Now / Goals</th>
+                    <th className="px-6 py-4 font-medium">Booked At</th>
                     <th className="px-6 py-4 font-medium text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 text-xs sm:text-sm">
-                  {messages.length === 0 ? (
+                  {bookings.length === 0 ? (
                     <tr>
-                      <td colSpan="8" className="px-6 py-12 text-center text-gray-500 font-medium">
-                        No "Get in Touch" messages received yet.
+                      <td colSpan="9" className="px-6 py-12 text-center text-gray-500 font-medium">
+                        No speaking assessment booking meeting forms received yet.
                       </td>
                     </tr>
                   ) : (
-                    messages.map((msg) => (
+                    bookings.map((b) => (
                       <tr 
-                        key={msg.id} 
+                        key={b.id} 
                         className="hover:bg-gray-50 transition-colors"
                       >
-                        <td className="px-6 py-4 font-bold text-gray-900">{msg.name}</td>
+                        <td className="px-6 py-4 font-bold text-gray-900">{b.name}</td>
                         <td className="px-6 py-4 text-gray-600">
-                          <a href={`mailto:${msg.email}`} className="text-blue-600 hover:underline">
-                            {msg.email}
+                          <a href={`mailto:${b.email}`} className="text-blue-600 hover:underline">
+                            {b.email}
                           </a>
                         </td>
-                        <td className="px-6 py-4 text-gray-600">
-                          {msg.phone ? (
+                        <td className="px-6 py-4">
+                          <span className="bg-blue-50 text-[#003a8f] px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap">
+                            {b.preferred_time || b.preferredTime || 'Flexible'}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-gray-700 font-medium whitespace-nowrap">
+                          {b.current_role || b.currentRole || '—'}
+                        </td>
+                        <td className="px-6 py-4 text-gray-600 text-xs whitespace-nowrap">
+                          {b.communication_frequency || b.communicationFrequency || '—'}
+                        </td>
+                        <td className="px-6 py-4">
+                          {b.linkedin ? (
                             <a 
-                              href={`https://wa.me/${msg.phone.replace(/\D/g, '')}`} 
+                              href={b.linkedin.startsWith('http') ? b.linkedin : `https://${b.linkedin}`}
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="text-green-700 hover:underline flex items-center gap-1"
+                              className="text-[#0077b5] hover:underline flex items-center gap-1 font-semibold text-xs"
                             >
-                              <FaWhatsapp size={13} />
-                              <span>{msg.phone}</span>
+                              <FaLinkedin size={14} />
+                              <span>View Profile</span>
                             </a>
                           ) : (
                             <span className="text-gray-400">—</span>
                           )}
                         </td>
-                        <td className="px-6 py-4 text-gray-700">{msg.company || '—'}</td>
-                        <td className="px-6 py-4">
-                          <span className="bg-brand-primary/10 text-brand-primary px-2.5 py-1 rounded-full text-xs font-semibold">
-                            {msg.subject || 'Inquiry'}
-                          </span>
-                        </td>
                         <td className="px-6 py-4 text-gray-600 max-w-xs truncate">
-                          {msg.message}
+                          {b.why_now || b.whyNow || '—'}
                         </td>
                         <td className="px-6 py-4 text-gray-500 text-xs whitespace-nowrap">
-                          {new Date(msg.created_at || Date.now()).toLocaleString(undefined, { 
+                          {new Date(b.created_at || Date.now()).toLocaleString(undefined, { 
                             year: 'numeric', month: 'short', day: 'numeric', 
                             hour: '2-digit', minute: '2-digit' 
                           })}
@@ -463,16 +475,16 @@ const AdminDashboard = () => {
                         <td className="px-6 py-4 text-right">
                           <div className="flex justify-end gap-2.5">
                             <button 
-                              onClick={() => setSelectedMessageModal(msg)}
+                              onClick={() => setSelectedBookingModal(b)}
                               className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
-                              title="View Message"
+                              title="View Full Booking Details"
                             >
                               <FaEye size={16} />
                             </button>
                             <button 
-                              onClick={() => handleDeleteMessage(msg.id)}
+                              onClick={() => handleDeleteBooking(b.id)}
                               className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                              title="Delete Message"
+                              title="Delete Booking"
                             >
                               <FaTrash size={15} />
                             </button>
@@ -553,26 +565,26 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Message Details Modal */}
-      {selectedMessageModal && (
+      {/* Booking Form Details Modal */}
+      {selectedBookingModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] overflow-hidden flex flex-col">
             <div className="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center">
-                  <FaEnvelope size={18} />
+                <div className="w-10 h-10 rounded-full bg-blue-100 text-[#003a8f] flex items-center justify-center">
+                  <FaCalendarAlt size={18} />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">
-                    {selectedMessageModal.name}
+                    Speaking Assessment Booking: {selectedBookingModal.name}
                   </h2>
                   <p className="text-xs text-gray-500 font-medium">
-                    Received: {new Date(selectedMessageModal.created_at || Date.now()).toLocaleString()}
+                    Received: {new Date(selectedBookingModal.created_at || Date.now()).toLocaleString()}
                   </p>
                 </div>
               </div>
               <button 
-                onClick={() => setSelectedMessageModal(null)} 
+                onClick={() => setSelectedBookingModal(null)} 
                 className="text-gray-400 hover:text-gray-700 text-2xl leading-none cursor-pointer"
               >
                 &times;
@@ -582,51 +594,70 @@ const AdminDashboard = () => {
             <div className="p-6 overflow-y-auto flex-1 flex flex-col gap-4 text-sm">
               <div className="grid grid-cols-2 gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
                 <div>
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Email</span>
-                  <a href={`mailto:${selectedMessageModal.email}`} className="text-blue-600 font-semibold hover:underline">
-                    {selectedMessageModal.email}
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Candidate Email</span>
+                  <a href={`mailto:${selectedBookingModal.email}`} className="text-blue-600 font-semibold hover:underline">
+                    {selectedBookingModal.email}
                   </a>
                 </div>
                 <div>
                   <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Phone / WhatsApp</span>
-                  <span className="text-gray-800 font-semibold">{selectedMessageModal.phone || '—'}</span>
+                  <span className="text-gray-800 font-semibold">{selectedBookingModal.phone || '—'}</span>
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Company</span>
-                  <span className="text-gray-800 font-semibold">{selectedMessageModal.company || '—'}</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Preferred Meeting Time</span>
+                  <span className="text-[#003a8f] font-semibold">{selectedBookingModal.preferred_time || selectedBookingModal.preferredTime || 'Flexible'}</span>
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Subject</span>
-                  <span className="text-brand-primary font-semibold">{selectedMessageModal.subject}</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Current Role</span>
+                  <span className="text-gray-800 font-semibold">{selectedBookingModal.current_role || selectedBookingModal.currentRole || '—'}</span>
+                </div>
+                <div>
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">Communication Frequency</span>
+                  <span className="text-gray-800 font-semibold">{selectedBookingModal.communication_frequency || selectedBookingModal.communicationFrequency || '—'}</span>
+                </div>
+                <div>
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">LinkedIn Profile</span>
+                  {selectedBookingModal.linkedin ? (
+                    <a 
+                      href={selectedBookingModal.linkedin.startsWith('http') ? selectedBookingModal.linkedin : `https://${selectedBookingModal.linkedin}`}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 font-semibold hover:underline flex items-center gap-1"
+                    >
+                      <FaLinkedin /> Open Profile
+                    </a>
+                  ) : (
+                    <span className="text-gray-400">—</span>
+                  )}
                 </div>
               </div>
 
               <div>
-                <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1.5">Full Message</span>
+                <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1.5">Why Now? / High-Stakes Milestone</span>
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 leading-relaxed whitespace-pre-wrap">
-                  {selectedMessageModal.message}
+                  {selectedBookingModal.why_now || selectedBookingModal.whyNow || 'No additional note provided.'}
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3 pt-4 border-t border-gray-100 justify-end">
-                {selectedMessageModal.phone && (
+                {selectedBookingModal.phone && (
                   <a 
-                    href={`https://wa.me/${selectedMessageModal.phone.replace(/\D/g, '')}`}
+                    href={`https://wa.me/${selectedBookingModal.phone.replace(/\D/g, '')}`}
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="px-4 py-2.5 bg-green-600 text-white rounded-xl font-semibold flex items-center gap-2 hover:bg-green-700 transition-colors"
                   >
                     <FaWhatsapp size={16} />
-                    <span>WhatsApp Chat</span>
+                    <span>WhatsApp Invitation</span>
                   </a>
                 )}
                 <a 
-                  href={`mailto:${selectedMessageModal.email}?subject=Re: ${encodeURIComponent(selectedMessageModal.subject)}`}
+                  href={`mailto:${selectedBookingModal.email}?subject=Speaking Assessment Meeting Invitation - Sarah Safaa&body=Hello ${encodeURIComponent(selectedBookingModal.name)},%0D%0A%0D%0AThank you for completing your C-Suite Diagnostic Assessment and scheduling your private speaking evaluation.`}
                   className="px-5 py-2.5 bg-brand-primary text-white rounded-xl font-semibold flex items-center gap-2 hover:bg-[#002d72] transition-colors"
                 >
                   <FaEnvelope size={14} />
-                  <span>Reply via Email</span>
+                  <span>Send Calendar Invite</span>
                 </a>
               </div>
             </div>

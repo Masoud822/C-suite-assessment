@@ -246,22 +246,33 @@ router.get('/current', authenticateToken, (req, res) => {
 router.post('/submit-answer', authenticateToken, (req, res) => {
   const { assessmentId, questionId, selectedOption, isFinal } = req.body;
   
-  if (!assessmentId || questionId === undefined || selectedOption === undefined) {
+  if (questionId === undefined || selectedOption === undefined) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
-    const assessment = db.prepare('SELECT * FROM assessments WHERE id = ? AND user_id = ? AND status = ?').get(assessmentId, req.user.id, 'IN_PROGRESS');
+    let currentAssessment = null;
+    if (assessmentId) {
+      currentAssessment = db.prepare('SELECT * FROM assessments WHERE id = ? AND user_id = ?').get(assessmentId, req.user.id);
+    }
     
-    if (!assessment) {
-      return res.status(404).json({ error: 'Active assessment not found' });
+    if (!currentAssessment) {
+      currentAssessment = db.prepare('SELECT * FROM assessments WHERE user_id = ? ORDER BY id DESC LIMIT 1').get(req.user.id);
     }
 
-    const existingAnswer = db.prepare('SELECT * FROM answers WHERE assessment_id = ? AND question_id = ?').get(assessmentId, questionId);
+    if (!currentAssessment) {
+      const stmt = db.prepare('INSERT INTO assessments (user_id) VALUES (?)');
+      const info = stmt.run(req.user.id);
+      currentAssessment = db.prepare('SELECT * FROM assessments WHERE id = ?').get(info.lastInsertRowid);
+    }
+
+    const activeId = currentAssessment.id;
+
+    const existingAnswer = db.prepare('SELECT * FROM answers WHERE assessment_id = ? AND question_id = ?').get(activeId, questionId);
     if (existingAnswer) {
       db.prepare('UPDATE answers SET selected_option = ? WHERE id = ?').run(selectedOption, existingAnswer.id);
     } else {
-      db.prepare('INSERT INTO answers (assessment_id, question_id, selected_option) VALUES (?, ?, ?)').run(assessmentId, questionId, selectedOption);
+      db.prepare('INSERT INTO answers (assessment_id, question_id, selected_option) VALUES (?, ?, ?)').run(activeId, questionId, selectedOption);
     }
 
     // Recalculate score
@@ -270,10 +281,10 @@ router.post('/submit-answer', authenticateToken, (req, res) => {
       FROM answers a 
       JOIN questions q ON a.question_id = q.id 
       WHERE a.assessment_id = ?
-    `).all(assessmentId);
+    `).all(activeId);
     
     const newScore = allAnswers.filter(a => a.selected_option === a.correct_answer).length;
-    db.prepare('UPDATE assessments SET score = ? WHERE id = ?').run(newScore, assessmentId);
+    db.prepare('UPDATE assessments SET score = ? WHERE id = ?').run(newScore, activeId);
 
     const rawQuestions = db.prepare('SELECT id, category, text, options FROM questions ORDER BY id ASC').all();
     const questions = rawQuestions.map(q => ({
@@ -282,15 +293,17 @@ router.post('/submit-answer', authenticateToken, (req, res) => {
     }));
 
     if (isFinal || allAnswers.length >= questions.length) {
-      const report = calculateAssessmentReport(req.user.id, assessmentId);
+      const report = calculateAssessmentReport(req.user.id, activeId);
       
       db.prepare('UPDATE assessments SET status = ?, completed_at = CURRENT_TIMESTAMP, cefr_level = ?, c_suite_level = ? WHERE id = ?')
-        .run('COMPLETED', report.cefrLevel, report.cSuiteStage.title, assessmentId);
+        .run('COMPLETED', report.cefrLevel, report.cSuiteStage.title, activeId);
         
       const user = db.prepare('SELECT name, email FROM users WHERE id = ?').get(req.user.id);
-      const updatedAssessment = db.prepare('SELECT * FROM assessments WHERE id = ?').get(assessmentId);
+      const updatedAssessment = db.prepare('SELECT * FROM assessments WHERE id = ?').get(activeId);
       
-      sendAdminReport(user, updatedAssessment);
+      try {
+        sendAdminReport(user, updatedAssessment);
+      } catch (e) {}
         
       return res.json({ 
         finished: true, 
