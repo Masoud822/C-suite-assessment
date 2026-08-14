@@ -1,6 +1,24 @@
 {
   "candidates": [
     {
+      "id": 1786739005899,
+      "user_id": 1786739005899,
+      "name": "AbdelRahman Mohamed",
+      "email": "alyeldinmassoud@gmail.com",
+      "phone": "01010111837",
+      "company": "",
+      "linkedin": "",
+      "score": 0,
+      "total_questions": 30,
+      "cefr_level": "In Progress",
+      "c_suite_level": "Assessment Started",
+      "infractions_count": 0,
+      "status": "IN_PROGRESS",
+      "started_at": "2026-08-14T20:23:25.899Z",
+      "completed_at": null,
+      "answers": {}
+    },
+    {
       "id": 1786738494048,
       "user_id": 1786738494048,
       "name": "AbdelRahman Mohamed",
