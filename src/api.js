@@ -27,10 +27,10 @@ const decodeBase64 = (b64) => {
   }
 };
 
-// Helper to fetch master database from Cloud
+// Helper to fetch master database from Cloud (with cache buster)
 const fetchCloudData = async () => {
   try {
-    const res = await fetch(GH_URL, {
+    const res = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}?ref=main&_t=${Date.now()}`, {
       headers: {
         'Authorization': `token ${getCloudToken()}`,
         'Accept': 'application/vnd.github.v3+json'
@@ -41,10 +41,14 @@ const fetchCloudData = async () => {
       const json = await res.json();
       const rawText = decodeBase64(json.content);
       const parsed = JSON.parse(rawText);
+      const candidates = Array.isArray(parsed.candidates) ? parsed.candidates : [];
+      const bookings = Array.isArray(parsed.bookings) ? parsed.bookings : [];
+      localStorage.setItem('local_candidate_assessments', JSON.stringify(candidates));
+      localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
       return {
         sha: json.sha,
-        candidates: Array.isArray(parsed.candidates) ? parsed.candidates : [],
-        bookings: Array.isArray(parsed.bookings) ? parsed.bookings : []
+        candidates,
+        bookings
       };
     }
   } catch (err) {
@@ -57,32 +61,58 @@ const fetchCloudData = async () => {
   };
 };
 
-// Helper to save master database back to Cloud
+// Helper to save master database back to Cloud (with live SHA fetching & merging)
 const saveCloudData = async (data) => {
   try {
-    let sha = data.sha;
-    if (!sha) {
-      const getRes = await fetch(GH_URL, {
-        headers: {
-          'Authorization': `token ${getCloudToken()}`,
-          'Accept': 'application/vnd.github.v3+json'
-        },
-        cache: 'no-store'
-      });
-      if (getRes.ok) {
-        const json = await getRes.json();
-        sha = json.sha;
+    const getRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}?ref=main&_t=${Date.now()}`, {
+      headers: {
+        'Authorization': `token ${getCloudToken()}`,
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      cache: 'no-store'
+    });
+
+    let currentSha = null;
+    let existingCandidates = [];
+    let existingBookings = [];
+
+    if (getRes.ok) {
+      const json = await getRes.json();
+      currentSha = json.sha;
+      try {
+        const parsed = JSON.parse(decodeBase64(json.content));
+        existingCandidates = Array.isArray(parsed.candidates) ? parsed.candidates : [];
+        existingBookings = Array.isArray(parsed.bookings) ? parsed.bookings : [];
+      } catch (e) {}
+    }
+
+    const mergedCandidates = [...(data.candidates || [])];
+    for (const remote of existingCandidates) {
+      const idx = mergedCandidates.findIndex(c => 
+        (c.email && remote.email && c.email.toLowerCase() === remote.email.toLowerCase()) ||
+        (c.id && remote.id && c.id.toString() === remote.id.toString())
+      );
+      if (idx === -1) {
+        mergedCandidates.push(remote);
+      }
+    }
+
+    const mergedBookings = [...(data.bookings || [])];
+    for (const remote of existingBookings) {
+      const idx = mergedBookings.findIndex(b => b.id && remote.id && b.id.toString() === remote.id.toString());
+      if (idx === -1) {
+        mergedBookings.push(remote);
       }
     }
 
     const payload = {
-      candidates: data.candidates || [],
-      bookings: data.bookings || []
+      candidates: mergedCandidates,
+      bookings: mergedBookings
     };
 
     const encoded = encodeBase64(JSON.stringify(payload, null, 2));
 
-    await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}`, {
+    const putRes = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}`, {
       method: 'PUT',
       headers: {
         'Authorization': `token ${getCloudToken()}`,
@@ -92,10 +122,15 @@ const saveCloudData = async (data) => {
       body: JSON.stringify({
         message: 'Sync candidate assessment data and booking records',
         content: encoded,
-        sha: sha,
+        sha: currentSha,
         branch: 'main'
       })
     });
+
+    if (putRes.ok) {
+      localStorage.setItem('local_candidate_assessments', JSON.stringify(mergedCandidates));
+      localStorage.setItem('local_speaking_bookings', JSON.stringify(mergedBookings));
+    }
   } catch (err) {
     console.warn('Cloud DB save error:', err);
   }

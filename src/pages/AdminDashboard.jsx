@@ -360,41 +360,51 @@ const AdminDashboard = () => {
                       </td>
                     </tr>
                   ) : (
-                    assessments.map((assessment) => (
-                      <tr 
-                        key={assessment.id} 
-                        className="hover:bg-gray-50 cursor-pointer transition-colors"
-                        onClick={() => viewDetails(assessment)}
-                      >
-                        <td className="px-6 py-4 font-bold text-gray-900">{assessment.name}</td>
-                        <td className="px-6 py-4 text-gray-600">{assessment.email}</td>
-                        <td className="px-6 py-4">
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            assessment.status === 'COMPLETED' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                          }`}>
-                            {assessment.status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 font-bold text-brand-primary">{assessment.score}</td>
-                        <td className="px-6 py-4 font-semibold">{assessment.cefr_level}</td>
-                        <td className="px-6 py-4">
-                          {assessment.infractions_count > 0 ? (
-                            <div className="flex items-center gap-1.5 text-red-600 font-bold">
-                              <FaExclamationTriangle size={14} />
-                              <span>{assessment.infractions_count}</span>
-                            </div>
-                          ) : (
-                            <span className="text-gray-400">0</span>
-                          )}
-                        </td>
-                        <td className="px-6 py-4 text-gray-500 text-xs">
-                          {new Date(assessment.started_at).toLocaleString(undefined, { 
-                            year: 'numeric', month: 'short', day: 'numeric', 
-                            hour: '2-digit', minute: '2-digit' 
-                          })}
-                        </td>
-                      </tr>
-                    ))
+                    assessments.map((assessment, idx) => {
+                      const name = assessment.name || assessment.candidate?.name || 'Candidate';
+                      const email = assessment.email || assessment.candidate?.email || '—';
+                      const score = assessment.score !== undefined ? assessment.score : (assessment.report?.score || 0);
+                      const cefr = assessment.cefr_level || assessment.cefrLevel || assessment.report?.cefrLevel || 'In Progress';
+                      const status = assessment.status || (assessment.report ? 'COMPLETED' : 'IN_PROGRESS');
+                      const infractions = assessment.infractions_count || 0;
+                      const dateStr = assessment.started_at || assessment.completed_at;
+                      
+                      return (
+                        <tr 
+                          key={assessment.id || idx} 
+                          className="hover:bg-gray-50 cursor-pointer transition-colors"
+                          onClick={() => viewDetails(assessment)}
+                        >
+                          <td className="px-6 py-4 font-bold text-gray-900">{name}</td>
+                          <td className="px-6 py-4 text-gray-600">{email}</td>
+                          <td className="px-6 py-4">
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              status === 'COMPLETED' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 font-bold text-brand-primary">{score}</td>
+                          <td className="px-6 py-4 font-semibold">{cefr}</td>
+                          <td className="px-6 py-4">
+                            {infractions > 0 ? (
+                              <div className="flex items-center gap-1.5 text-red-600 font-bold">
+                                <FaExclamationTriangle size={14} />
+                                <span>{infractions}</span>
+                              </div>
+                            ) : (
+                              <span className="text-gray-400">0</span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4 text-gray-500 text-xs">
+                            {dateStr ? new Date(dateStr).toLocaleString(undefined, { 
+                              year: 'numeric', month: 'short', day: 'numeric', 
+                              hour: '2-digit', minute: '2-digit' 
+                            }) : 'Recent'}
+                          </td>
+                        </tr>
+                      );
+                    })
                   )}
                 </tbody>
               </table>
