@@ -1,1 +1,10 @@
-{"candidates":[],"bookings":[]}
+{
+  "candidates": [
+    {
+      "name": "AbdelRahman Masoud",
+      "email": "abdelrahmanmasoud824@gmail.com",
+      "score": 28
+    }
+  ],
+  "bookings": []
+}
