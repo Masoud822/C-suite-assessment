@@ -114,13 +114,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/",
-      "score": 6,
+      "score": 7,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "21/30 Answered",
+      "c_suite_level": "22/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T20:03:22.405Z",
+      "started_at": "2026-08-14T20:03:27.921Z",
       "completed_at": null,
       "answers": {
         "1": 1,
@@ -143,7 +143,8 @@
         "18": 2,
         "19": 2,
         "20": 1,
-        "21": 1
+        "21": 1,
+        "22": 1
       },
       "report": {
         "candidate": {
@@ -152,17 +153,17 @@
           "role": "ui",
           "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/"
         },
-        "score": 6,
+        "score": 7,
         "totalQuestions": 30,
-        "accuracy": 20,
-        "scoreOutOf40": 8,
-        "cefrLevel": "A1",
+        "accuracy": 23,
+        "scoreOutOf40": 9,
+        "cefrLevel": "A1+",
         "cSuiteStage": {
-          "title": "Beginner Communicator",
-          "description": "Can communicate simple ideas in familiar situations."
+          "title": "Basic Communicator",
+          "description": "Can handle basic conversations on familiar topics."
         },
-        "oneLineExplanation": "Can communicate simple ideas in familiar situations.",
-        "diagnosticSummary": "You can communicate simple messages in familiar situations using basic language. However, your communication is still limited by restricted vocabulary and inconsistent grammatical control, particularly when interactions become less predictable.",
+        "oneLineExplanation": "Can handle basic conversations on familiar topics.",
+        "diagnosticSummary": "You can participate in basic conversations on familiar topics and communicate straightforward messages. You may experience greater difficulty when you need to use language spontaneously, maintain grammatical accuracy, or adapt your language to new situations.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -188,39 +189,39 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 1,
+            "score": 2,
             "total": 10,
-            "percentage": 10,
+            "percentage": 20,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           }
         ],
         "recommendedPath": [
           {
-            "title": "Essential Grammar Control",
-            "description": "Core sentence patterns, questions, negatives, and high-frequency tenses."
+            "title": "Grammar Accuracy & Control",
+            "description": "Strengthen core tense patterns, sentence structures, and question formation."
           },
           {
-            "title": "Professional Vocabulary Expansion",
-            "description": "Vocabulary for roles, teams, projects, meetings, and responsibilities."
+            "title": "Professional Vocabulary & Collocations",
+            "description": "Build natural workplace combinations and expressions."
           },
           {
-            "title": "Controlled Speaking Practice",
-            "description": "Short workplace dialogues and structured speaking tasks."
+            "title": "Spontaneous Workplace Speaking",
+            "description": "Practice responding, explaining, clarifying, and giving simple opinions."
           }
         ],
         "learningPath": [
           {
-            "title": "Essential Grammar Control",
-            "description": "Core sentence patterns, questions, negatives, and high-frequency tenses."
+            "title": "Grammar Accuracy & Control",
+            "description": "Strengthen core tense patterns, sentence structures, and question formation."
           },
           {
-            "title": "Professional Vocabulary Expansion",
-            "description": "Vocabulary for roles, teams, projects, meetings, and responsibilities."
+            "title": "Professional Vocabulary & Collocations",
+            "description": "Build natural workplace combinations and expressions."
           },
           {
-            "title": "Controlled Speaking Practice",
-            "description": "Short workplace dialogues and structured speaking tasks."
+            "title": "Spontaneous Workplace Speaking",
+            "description": "Practice responding, explaining, clarifying, and giving simple opinions."
           }
         ]
       }
