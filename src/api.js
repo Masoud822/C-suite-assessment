@@ -561,21 +561,9 @@ export const getAdminUsers = async () => {
 };
 
 export const getAdminAssessmentDetails = async (id) => {
-  try {
-    const res = await fetch(`${API_URL}/admin/assessments/${id}`, {
-      method: 'GET',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
   const cloudData = await fetchCloudData();
   const candidates = cloudData.candidates || [];
-  const record = candidates.find(a => a.id.toString() === id.toString()) || candidates[0];
+  const record = candidates.find(a => a.id && id && a.id.toString() === id.toString()) || candidates[0];
   if (record) {
     const detailedAnswers = assessmentQuestions.map(q => {
       const selected = record.answers ? record.answers[q.id] : undefined;
@@ -597,18 +585,6 @@ export const getAdminAssessmentDetails = async (id) => {
 };
 
 export const getAdminAssessments = async () => {
-  try {
-    const res = await fetch(`${API_URL}/admin/assessments`, {
-      method: 'GET',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
   const cloudData = await fetchCloudData();
   const candidates = cloudData.candidates || [];
   localStorage.setItem('local_candidate_assessments', JSON.stringify(candidates));
@@ -617,20 +593,8 @@ export const getAdminAssessments = async () => {
 
 export const clearAllResponses = async () => {
   try {
-    const res = await fetch(`${API_URL}/admin/clear-responses`, {
-      method: 'POST',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
-  try {
     const cloudData = await fetchCloudData();
-    await saveCloudData({ ...cloudData, candidates: [] });
+    await saveCloudData({ candidates: [], bookings: cloudData.bookings || [] });
   } catch (e) {}
 
   localStorage.removeItem('local_candidate_assessments');
@@ -640,18 +604,6 @@ export const clearAllResponses = async () => {
 };
 
 export const getAdminBookings = async () => {
-  try {
-    const res = await fetch(`${API_URL}/admin/bookings`, {
-      method: 'GET',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
   const cloudData = await fetchCloudData();
   const bookings = cloudData.bookings || [];
   localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
@@ -660,22 +612,10 @@ export const getAdminBookings = async () => {
 
 export const deleteAdminBooking = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/admin/bookings/${id}`, {
-      method: 'DELETE',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
-  try {
     const cloudData = await fetchCloudData();
     const bookings = (cloudData.bookings || []).filter(b => b.id !== id);
     localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
-    await saveCloudData({ ...cloudData, bookings });
+    await saveCloudData({ candidates: cloudData.candidates || [], bookings });
   } catch (e) {}
 
   return { success: true };
@@ -683,20 +623,8 @@ export const deleteAdminBooking = async (id) => {
 
 export const clearAdminBookings = async () => {
   try {
-    const res = await fetch(`${API_URL}/admin/clear-bookings`, {
-      method: 'POST',
-      headers: getHeaders()
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
-  try {
     const cloudData = await fetchCloudData();
-    await saveCloudData({ ...cloudData, bookings: [] });
+    await saveCloudData({ candidates: cloudData.candidates || [], bookings: [] });
   } catch (e) {}
 
   localStorage.removeItem('local_speaking_bookings');
