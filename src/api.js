@@ -511,32 +511,19 @@ export const logInfraction = async (assessmentId, type) => {
 };
 
 export const bookSpeakingAssessment = async (bookingData) => {
-  try {
-    const res = await fetch(`${API_URL}/assessment/book-speaking`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(bookingData)
-    });
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (err) {
-    // fallback
-  }
-
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const newBooking = {
     id: Date.now(),
     user_id: user?.id || Date.now(),
-    name: user?.name || 'Candidate',
-    email: user?.email || 'candidate@example.com',
-    phone: user?.phone || '',
-    company: user?.company || '',
+    name: bookingData.name || user?.name || 'Candidate',
+    email: bookingData.email || user?.email || 'candidate@example.com',
+    phone: bookingData.phone || user?.phone || '',
+    company: bookingData.company || user?.company || '',
     linkedin: bookingData.linkedin || user?.linkedin || '',
-    preferred_time: bookingData.preferredTime || '',
-    current_role: bookingData.currentRole || '',
-    communication_frequency: bookingData.communicationFrequency || '',
-    why_now: bookingData.whyNow || '',
+    preferred_time: bookingData.preferredTime || bookingData.preferred_time || '',
+    current_role: bookingData.currentRole || bookingData.current_role || '',
+    communication_frequency: bookingData.communicationFrequency || bookingData.communication_frequency || '',
+    why_now: bookingData.whyNow || bookingData.why_now || '',
     created_at: new Date().toISOString()
   };
 
@@ -545,8 +532,10 @@ export const bookSpeakingAssessment = async (bookingData) => {
     const bookings = cloudData.bookings || [];
     bookings.unshift(newBooking);
     localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
-    await saveCloudData({ ...cloudData, bookings });
-  } catch (e) {}
+    await saveCloudData({ candidates: cloudData.candidates || [], bookings });
+  } catch (e) {
+    console.warn('Booking cloud save error:', e);
+  }
 
   return { success: true, bookingId: newBooking.id };
 };

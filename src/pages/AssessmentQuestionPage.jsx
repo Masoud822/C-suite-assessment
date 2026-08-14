@@ -335,10 +335,16 @@ const AssessmentQuestionPage = () => {
           : `https://${bookingData.linkedin.trim()}`
       ) : '';
 
+      const localUser = JSON.parse(localStorage.getItem('user') || '{}');
+
       await bookSpeakingAssessment({
         assessmentId,
+        name: results?.candidate?.name || localUser?.name || 'Executive Candidate',
+        email: results?.candidate?.email || localUser?.email || '',
+        phone: results?.candidate?.phone || localUser?.phone || '',
+        company: results?.candidate?.company || localUser?.company || '',
         ...bookingData,
-        linkedin: formattedLinkedin
+        linkedin: formattedLinkedin || results?.candidate?.linkedin || localUser?.linkedin || ''
       });
       setBookingConfirmed(true);
     } catch (err) {
