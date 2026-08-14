@@ -70,7 +70,6 @@ const Footer = () => {
         >
           <Link to="/" className="hover:text-brand-pink transition-colors">Home</Link>
           <Link to="/assessment/register" className="hover:text-brand-pink transition-colors">Registration</Link>
-          <a href="/#contact" onClick={() => { navigate('/'); setTimeout(() => { const el = document.getElementById('contact'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 100); }} className="hover:text-brand-pink transition-colors cursor-pointer">Get in Touch</a>
           {localStorage.getItem('token') && (
             <>
               <Link to="/assessment/question" className="hover:text-brand-pink transition-colors">Assessment</Link>

@@ -303,6 +303,33 @@ export const submitAnswer = async (assessmentId, questionId, selectedOption, isF
 
   if (isFinal || answerCount >= assessmentQuestions.length) {
     const report = calculateLocalReport(user, rawAnswers);
+    
+    // Save to local candidate assessments list
+    const completedList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
+    const newRecord = {
+      id: Date.now(),
+      user_id: user?.id || Date.now(),
+      name: user?.name || 'Candidate',
+      email: user?.email || '',
+      score: report.score,
+      total_questions: report.totalQuestions,
+      cefr_level: report.cefrLevel,
+      c_suite_level: report.cSuiteStage.title,
+      infractions_count: parseInt(localStorage.getItem('local_infractions') || '0', 10),
+      status: 'COMPLETED',
+      started_at: new Date().toISOString(),
+      completed_at: new Date().toISOString(),
+      answers: rawAnswers,
+      report: report
+    };
+    const existingIdx = completedList.findIndex(a => a.email === newRecord.email);
+    if (existingIdx !== -1) {
+      completedList[existingIdx] = newRecord;
+    } else {
+      completedList.unshift(newRecord);
+    }
+    localStorage.setItem('local_candidate_assessments', JSON.stringify(completedList));
+
     return { finished: true, results: report };
   }
 
@@ -365,12 +392,38 @@ export const getAdminUsers = async () => {
 };
 
 export const getAdminAssessmentDetails = async (id) => {
-  const res = await fetch(`${API_URL}/admin/assessments/${id}`, {
-    method: 'GET',
-    headers: getHeaders()
-  });
-  if (!res.ok) throw new Error('Failed to fetch assessment details');
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/admin/assessments/${id}`, {
+      method: 'GET',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const localList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
+  const record = localList.find(a => a.id.toString() === id.toString()) || localList[0];
+  if (record) {
+    const detailedAnswers = assessmentQuestions.map(q => {
+      const selected = record.answers ? record.answers[q.id] : undefined;
+      return {
+        question_text: q.text,
+        category: q.category,
+        options: q.options,
+        correct_answer: q.correctAnswer,
+        selected_option: selected !== undefined ? selected : -1,
+        is_correct: selected === q.correctAnswer
+      };
+    });
+    return {
+      assessment: record,
+      answers: detailedAnswers
+    };
+  }
+  throw new Error('Assessment details not found');
 };
 
 export const getAdminAssessments = async () => {
@@ -385,7 +438,9 @@ export const getAdminAssessments = async () => {
   } catch (err) {
     // fallback
   }
-  return [];
+
+  const localList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
+  return localList;
 };
 
 export const clearAllResponses = async () => {
@@ -400,6 +455,7 @@ export const clearAllResponses = async () => {
   } catch (err) {
     // fallback
   }
+  localStorage.removeItem('local_candidate_assessments');
   localStorage.removeItem('local_answers');
   localStorage.removeItem('local_infractions');
   localStorage.removeItem('local_booking');
