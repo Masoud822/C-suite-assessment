@@ -2,6 +2,45 @@ import { assessmentQuestions } from './data/assessmentQuestions';
 import { CEFR_LEARNING_PATHS } from './data/learningPaths';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
+const CLOUD_DB_URL = 'https://api.restful-api.dev/objects/ff8081819ff5b11001a001b8dd7d1fd4';
+
+// Helper to fetch the master shared cloud database
+const fetchCloudData = async () => {
+  try {
+    const res = await fetch(CLOUD_DB_URL);
+    if (res.ok) {
+      const json = await res.json();
+      if (json && json.data) {
+        return {
+          candidates: Array.isArray(json.data.candidates) ? json.data.candidates : [],
+          bookings: Array.isArray(json.data.bookings) ? json.data.bookings : []
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('Cloud DB fetch error, using local fallback:', err);
+  }
+  return {
+    candidates: JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]'),
+    bookings: JSON.parse(localStorage.getItem('local_speaking_bookings') || '[]')
+  };
+};
+
+// Helper to save data back to the master shared cloud database
+const saveCloudData = async (data) => {
+  try {
+    await fetch(CLOUD_DB_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'C-Suite Assessment Master Cloud DB',
+        data: data
+      })
+    });
+  } catch (err) {
+    console.warn('Cloud DB save error:', err);
+  }
+};
 
 const getHeaders = () => {
   const token = localStorage.getItem('token');
@@ -97,51 +136,30 @@ const calculateLocalReport = (user, answersMap) => {
     };
   });
 
-  let cefrLevel = 'A1-';
-  if (accuracy >= 92) cefrLevel = 'B2+';
-  else if (accuracy >= 85) cefrLevel = 'B2';
-  else if (accuracy >= 78) cefrLevel = 'B2-';
-  else if (accuracy >= 70) cefrLevel = 'B1+';
-  else if (accuracy >= 62) cefrLevel = 'B1';
-  else if (accuracy >= 54) cefrLevel = 'B1-';
-  else if (accuracy >= 46) cefrLevel = 'A2+';
-  else if (accuracy >= 38) cefrLevel = 'A2';
-  else if (accuracy >= 30) cefrLevel = 'A2-';
-  else if (accuracy >= 22) cefrLevel = 'A1+';
-  else if (accuracy >= 15) cefrLevel = 'A1';
-  else cefrLevel = 'A1-';
+  let cefrLevel = 'B1';
+  let stageTitle = 'Emerging Professional';
+  let stageDescription = 'Developing conversational and technical English, but struggling with boardroom nuance and persuasion.';
 
-  const recommendedPath = CEFR_LEARNING_PATHS[cefrLevel] || CEFR_LEARNING_PATHS['B1-'];
-
-  let stageTitle = 'Pre-Independent Communicator';
-  let stageDescription = 'Can handle most workplace interactions with occasional difficulty.';
-  let diagnosticSummary = 'Most workplace interactions can be managed independently. However, more complex discussions may expose gaps in fluency, precision, and language control that reduce overall communication effectiveness.';
-
-  if (accuracy >= 85) {
-    stageTitle = 'Executive Leader Communicator';
-    stageDescription = 'Commands high-stakes executive discourse with fluency, nuance, and strategic authority.';
-    diagnosticSummary = 'Exhibits exceptional command of executive discourse, nuanced tone calibration, and precise corporate vocabulary. Communication inspires trust and drives consensus in high-stakes boardroom environments.';
-  } else if (accuracy >= 70) {
-    stageTitle = 'Strategic Communicator';
-    stageDescription = 'Delivers clear, impactful business arguments and handles complex negotiations effectively.';
-    diagnosticSummary = 'Demonstrates strong fluency and professional composure across most corporate scenarios. Occasional minor lapses in high-pressure nuance, but consistently persuasive, structured, and clear.';
-  } else if (accuracy >= 50) {
-    stageTitle = 'Pre-Independent Communicator';
-    stageDescription = 'Can handle most workplace interactions with occasional difficulty.';
-    diagnosticSummary = 'Most workplace interactions can be managed independently. However, more complex discussions may expose gaps in fluency, precision, and language control that reduce overall communication effectiveness.';
-  } else {
-    stageTitle = 'Emerging Operational Communicator';
-    stageDescription = 'Demonstrates basic workplace competence but requires structured support in executive articulation.';
-    diagnosticSummary = 'Core workplace concepts are understood, but high-impact presentations, diplomatically sensitive negotiations, and advanced corporate phrasing require targeted refinement.';
+  if (accuracy >= 88) {
+    cefrLevel = 'C2';
+    stageTitle = 'Mastery Executive';
+    stageDescription = 'Flawless international boardroom presence, elite nuance, and effortless persuasive command.';
+  } else if (accuracy >= 75) {
+    cefrLevel = 'C1';
+    stageTitle = 'Advanced Leader';
+    stageDescription = 'Fluent and effective corporate communicator with minor inconsistencies in high-stakes negotiations.';
+  } else if (accuracy >= 60) {
+    cefrLevel = 'B2';
+    stageTitle = 'Operational Communicator';
+    stageDescription = 'Comfortable in everyday business settings, but requiring polish for executive-level gravitas.';
   }
 
+  const diagnosticSummary = `Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level ${cefrLevel} (${accuracy}% accuracy). ${stageDescription}`;
+
+  const learningPathKey = (cefrLevel === 'C1' || cefrLevel === 'C2') ? 'C1_C2' : (cefrLevel === 'B2' ? 'B2' : 'B1');
+  const recommendedPath = CEFR_LEARNING_PATHS[learningPathKey] || CEFR_LEARNING_PATHS['B2'];
+
   return {
-    candidate: {
-      name: user ? user.name : 'Candidate',
-      email: user ? user.email : '',
-      role: user && user.job_title ? user.job_title : (user && user.company ? `${user.company} Executive` : 'Executive Candidate'),
-      linkedin: user ? user.linkedin : ''
-    },
     score: correctCount,
     totalQuestions,
     accuracy,
@@ -183,8 +201,7 @@ export const register = async (candidateData) => {
   localStorage.removeItem('local_answers');
   localStorage.removeItem('local_infractions');
 
-  // Immediately save candidate record in candidate assessments list
-  const completedList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
+  // Immediately record candidate in Cloud Database and Local Storage
   const newCandidateRecord = {
     id: localUser.id,
     user_id: localUser.id,
@@ -204,13 +221,17 @@ export const register = async (candidateData) => {
     answers: {}
   };
 
-  const existingIdx = completedList.findIndex(a => a.email === newCandidateRecord.email);
-  if (existingIdx !== -1) {
-    completedList[existingIdx] = { ...completedList[existingIdx], ...newCandidateRecord };
-  } else {
-    completedList.unshift(newCandidateRecord);
-  }
-  localStorage.setItem('local_candidate_assessments', JSON.stringify(completedList));
+  fetchCloudData().then(cloudData => {
+    const candidates = cloudData.candidates || [];
+    const existingIdx = candidates.findIndex(a => a.email.toLowerCase() === newCandidateRecord.email.toLowerCase());
+    if (existingIdx !== -1) {
+      candidates[existingIdx] = { ...candidates[existingIdx], ...newCandidateRecord };
+    } else {
+      candidates.unshift(newCandidateRecord);
+    }
+    localStorage.setItem('local_candidate_assessments', JSON.stringify(candidates));
+    saveCloudData({ ...cloudData, candidates });
+  });
 
   return { token, user: localUser };
 };
@@ -292,7 +313,6 @@ export const getCurrentAssessment = async () => {
     text: q.text,
     options: q.options
   }));
-
   const answerCount = Object.keys(rawAnswers).length;
 
   if (answerCount >= formatted.length) {
@@ -335,11 +355,8 @@ export const submitAnswer = async (assessmentId, questionId, selectedOption, isF
   const answerCount = Object.keys(rawAnswers).length;
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const report = calculateLocalReport(user, rawAnswers);
-
-  // Update candidate assessment record on every answer
-  const completedList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
   const isComplete = isFinal || answerCount >= assessmentQuestions.length;
-  
+
   const candidateRecord = {
     id: user?.id || Date.now(),
     user_id: user?.id || Date.now(),
@@ -360,13 +377,18 @@ export const submitAnswer = async (assessmentId, questionId, selectedOption, isF
     report: report
   };
 
-  const existingIdx = completedList.findIndex(a => a.email === candidateRecord.email);
-  if (existingIdx !== -1) {
-    completedList[existingIdx] = candidateRecord;
-  } else {
-    completedList.unshift(candidateRecord);
-  }
-  localStorage.setItem('local_candidate_assessments', JSON.stringify(completedList));
+  // Sync to Cloud DB and localStorage
+  fetchCloudData().then(cloudData => {
+    const candidates = cloudData.candidates || [];
+    const existingIdx = candidates.findIndex(a => a.email.toLowerCase() === candidateRecord.email.toLowerCase());
+    if (existingIdx !== -1) {
+      candidates[existingIdx] = candidateRecord;
+    } else {
+      candidates.unshift(candidateRecord);
+    }
+    localStorage.setItem('local_candidate_assessments', JSON.stringify(candidates));
+    saveCloudData({ ...cloudData, candidates });
+  });
 
   if (isComplete) {
     return { finished: true, results: report };
@@ -419,7 +441,6 @@ export const bookSpeakingAssessment = async (bookingData) => {
   }
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const stored = JSON.parse(localStorage.getItem('local_speaking_bookings') || '[]');
   const newBooking = {
     id: Date.now(),
     user_id: user?.id || Date.now(),
@@ -434,8 +455,13 @@ export const bookSpeakingAssessment = async (bookingData) => {
     why_now: bookingData.whyNow || '',
     created_at: new Date().toISOString()
   };
-  stored.unshift(newBooking);
-  localStorage.setItem('local_speaking_bookings', JSON.stringify(stored));
+
+  const cloudData = await fetchCloudData();
+  const bookings = cloudData.bookings || [];
+  bookings.unshift(newBooking);
+  localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
+  await saveCloudData({ ...cloudData, bookings });
+
   return { success: true, bookingId: newBooking.id };
 };
 
@@ -461,8 +487,9 @@ export const getAdminAssessmentDetails = async (id) => {
     // fallback
   }
 
-  const localList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
-  const record = localList.find(a => a.id.toString() === id.toString()) || localList[0];
+  const cloudData = await fetchCloudData();
+  const candidates = cloudData.candidates || [];
+  const record = candidates.find(a => a.id.toString() === id.toString()) || candidates[0];
   if (record) {
     const detailedAnswers = assessmentQuestions.map(q => {
       const selected = record.answers ? record.answers[q.id] : undefined;
@@ -496,8 +523,10 @@ export const getAdminAssessments = async () => {
     // fallback
   }
 
-  const localList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
-  return localList;
+  const cloudData = await fetchCloudData();
+  const candidates = cloudData.candidates || [];
+  localStorage.setItem('local_candidate_assessments', JSON.stringify(candidates));
+  return candidates;
 };
 
 export const clearAllResponses = async () => {
@@ -512,10 +541,12 @@ export const clearAllResponses = async () => {
   } catch (err) {
     // fallback
   }
+
+  const cloudData = await fetchCloudData();
+  await saveCloudData({ ...cloudData, candidates: [] });
   localStorage.removeItem('local_candidate_assessments');
   localStorage.removeItem('local_answers');
   localStorage.removeItem('local_infractions');
-  localStorage.removeItem('local_booking');
   return { success: true };
 };
 
@@ -532,8 +563,10 @@ export const getAdminBookings = async () => {
     // fallback
   }
 
-  const stored = JSON.parse(localStorage.getItem('local_speaking_bookings') || '[]');
-  return stored;
+  const cloudData = await fetchCloudData();
+  const bookings = cloudData.bookings || [];
+  localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
+  return bookings;
 };
 
 export const deleteAdminBooking = async (id) => {
@@ -549,9 +582,10 @@ export const deleteAdminBooking = async (id) => {
     // fallback
   }
 
-  const stored = JSON.parse(localStorage.getItem('local_speaking_bookings') || '[]');
-  const filtered = stored.filter(b => b.id !== id);
-  localStorage.setItem('local_speaking_bookings', JSON.stringify(filtered));
+  const cloudData = await fetchCloudData();
+  const bookings = (cloudData.bookings || []).filter(b => b.id !== id);
+  localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
+  await saveCloudData({ ...cloudData, bookings });
   return { success: true };
 };
 
@@ -568,6 +602,8 @@ export const clearAdminBookings = async () => {
     // fallback
   }
 
+  const cloudData = await fetchCloudData();
+  await saveCloudData({ ...cloudData, bookings: [] });
   localStorage.removeItem('local_speaking_bookings');
   return { success: true };
 };
