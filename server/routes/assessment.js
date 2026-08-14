@@ -103,46 +103,9 @@ const calculateAssessmentReport = (userId, assessmentId) => {
     };
   });
 
-  // Determine CEFR level
-  let cefrLevel = 'A1-';
-  if (accuracy >= 92) cefrLevel = 'B2+';
-  else if (accuracy >= 85) cefrLevel = 'B2';
-  else if (accuracy >= 78) cefrLevel = 'B2-';
-  else if (accuracy >= 70) cefrLevel = 'B1+';
-  else if (accuracy >= 62) cefrLevel = 'B1';
-  else if (accuracy >= 54) cefrLevel = 'B1-';
-  else if (accuracy >= 46) cefrLevel = 'A2+';
-  else if (accuracy >= 38) cefrLevel = 'A2';
-  else if (accuracy >= 30) cefrLevel = 'A2-';
-  else if (accuracy >= 22) cefrLevel = 'A1+';
-  else if (accuracy >= 15) cefrLevel = 'A1';
-  else cefrLevel = 'A1-';
-
-  const { CEFR_LEARNING_PATHS } = require('../data/learningPaths');
-  const recommendedPath = CEFR_LEARNING_PATHS[cefrLevel] || CEFR_LEARNING_PATHS['B1-'];
-
-  // Determine C-Suite Communication Stage & Diagnostic Summary
-  let stageTitle = 'Pre-Independent Communicator';
-  let stageDescription = 'Can handle most workplace interactions with occasional difficulty.';
-  let diagnosticSummary = 'Most workplace interactions can be managed independently. However, more complex discussions may expose gaps in fluency, precision, and language control that reduce overall communication effectiveness.';
-
-  if (accuracy >= 85) {
-    stageTitle = 'Executive Leader Communicator';
-    stageDescription = 'Commands high-stakes executive discourse with fluency, nuance, and strategic authority.';
-    diagnosticSummary = 'Exhibits exceptional command of executive discourse, nuanced tone calibration, and precise corporate vocabulary. Communication inspires trust and drives consensus in high-stakes boardroom environments.';
-  } else if (accuracy >= 70) {
-    stageTitle = 'Strategic Communicator';
-    stageDescription = 'Delivers clear, impactful business arguments and handles complex negotiations effectively.';
-    diagnosticSummary = 'Demonstrates strong fluency and professional composure across most corporate scenarios. Occasional minor lapses in high-pressure nuance, but consistently persuasive, structured, and clear.';
-  } else if (accuracy >= 50) {
-    stageTitle = 'Pre-Independent Communicator';
-    stageDescription = 'Can handle most workplace interactions with occasional difficulty.';
-    diagnosticSummary = 'Most workplace interactions can be managed independently. However, more complex discussions may expose gaps in fluency, precision, and language control that reduce overall communication effectiveness.';
-  } else {
-    stageTitle = 'Emerging Operational Communicator';
-    stageDescription = 'Demonstrates basic workplace competence but requires structured support in executive articulation.';
-    diagnosticSummary = 'Core workplace concepts are understood, but high-impact presentations, diplomatically sensitive negotiations, and advanced corporate phrasing require targeted refinement.';
-  }
+  const scoreOutOf40 = Math.round((correctCount / (totalQuestions || 1)) * 40);
+  const { getFrameworkEntryByScore } = require('../data/learningPaths');
+  const entry = getFrameworkEntryByScore(scoreOutOf40);
 
   return {
     candidate: {
@@ -154,10 +117,18 @@ const calculateAssessmentReport = (userId, assessmentId) => {
     score: correctCount,
     totalQuestions: totalQuestions || allAnswers.length,
     accuracy,
-    cefrLevel,
+    scoreOutOf40,
+    cefrLevel: entry.level,
     cSuiteStage: {
-      title: stageTitle,
-      description: stageDescription
+      title: entry.stage,
+      description: entry.oneLineExplanation
+    },
+    oneLineExplanation: entry.oneLineExplanation,
+    diagnosticSummary: entry.diagnosticSummary,
+    sectionRatings,
+    recommendedPath: entry.learningPath,
+    learningPath: entry.learningPath
+  };
     },
     diagnosticSummary,
     sectionRatings,

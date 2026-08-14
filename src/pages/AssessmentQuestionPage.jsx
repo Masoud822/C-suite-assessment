@@ -447,9 +447,13 @@ const AssessmentQuestionPage = () => {
   };
 
   // Determine Learning Path items for the report
-  const learningPathItems = (results?.cefrLevel && CEFR_LEARNING_PATHS[results.cefrLevel]) 
-    ? CEFR_LEARNING_PATHS[results.cefrLevel] 
-    : (CEFR_LEARNING_PATHS['B1-'] || []);
+  const learningPathItems = (results?.recommendedPath && Array.isArray(results.recommendedPath) && results.recommendedPath.length > 0)
+    ? results.recommendedPath
+    : (results?.learningPath && Array.isArray(results.learningPath) && results.learningPath.length > 0)
+    ? results.learningPath
+    : (results?.cefrLevel && CEFR_LEARNING_PATHS[results.cefrLevel])
+    ? CEFR_LEARNING_PATHS[results.cefrLevel]
+    : (CEFR_LEARNING_PATHS['B1'] || []);
 
   return (
     <div 

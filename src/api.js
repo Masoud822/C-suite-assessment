@@ -1,5 +1,5 @@
 import { assessmentQuestions } from './data/assessmentQuestions';
-import { CEFR_LEARNING_PATHS } from './data/learningPaths';
+import { CEFR_LEARNING_PATHS, getFrameworkEntryByScore, getFrameworkEntryByLevel } from './data/learningPaths';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
@@ -195,41 +195,30 @@ const calculateLocalReport = (user, answersMap) => {
     };
   });
 
-  let cefrLevel = 'B1';
-  let stageTitle = 'Emerging Professional';
-  let stageDescription = 'Developing conversational and technical English, but struggling with boardroom nuance and persuasion.';
-
-  if (accuracy >= 88) {
-    cefrLevel = 'C2';
-    stageTitle = 'Mastery Executive';
-    stageDescription = 'Flawless international boardroom presence, elite nuance, and effortless persuasive command.';
-  } else if (accuracy >= 75) {
-    cefrLevel = 'C1';
-    stageTitle = 'Advanced Leader';
-    stageDescription = 'Fluent and effective corporate communicator with minor inconsistencies in high-stakes negotiations.';
-  } else if (accuracy >= 60) {
-    cefrLevel = 'B2';
-    stageTitle = 'Operational Communicator';
-    stageDescription = 'Comfortable in everyday business settings, but requiring polish for executive-level gravitas.';
-  }
-
-  const diagnosticSummary = `Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level ${cefrLevel} (${accuracy}% accuracy). ${stageDescription}`;
-
-  const learningPathKey = (cefrLevel === 'C1' || cefrLevel === 'C2') ? 'C1_C2' : (cefrLevel === 'B2' ? 'B2' : 'B1');
-  const recommendedPath = CEFR_LEARNING_PATHS[learningPathKey] || CEFR_LEARNING_PATHS['B2'];
+  const scoreOutOf40 = Math.round((correctCount / (totalQuestions || 1)) * 40);
+  const entry = getFrameworkEntryByScore(scoreOutOf40);
 
   return {
+    candidate: {
+      name: user ? user.name : 'Candidate',
+      email: user ? user.email : '',
+      role: user && user.job_title ? user.job_title : (user && user.company ? `${user.company} Executive` : 'Executive Candidate'),
+      linkedin: user ? user.linkedin : ''
+    },
     score: correctCount,
     totalQuestions,
     accuracy,
-    cefrLevel,
+    scoreOutOf40,
+    cefrLevel: entry.level,
     cSuiteStage: {
-      title: stageTitle,
-      description: stageDescription
+      title: entry.stage,
+      description: entry.oneLineExplanation
     },
-    diagnosticSummary,
+    oneLineExplanation: entry.oneLineExplanation,
+    diagnosticSummary: entry.diagnosticSummary,
     sectionRatings,
-    recommendedPath
+    recommendedPath: entry.learningPath,
+    learningPath: entry.learningPath
   };
 };
 
