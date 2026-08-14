@@ -68,6 +68,17 @@ const initDb = () => {
       options TEXT NOT NULL, -- Stored as JSON string
       correct_answer INTEGER NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS contact_messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT,
+      company TEXT,
+      subject TEXT,
+      message TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   // Ensure extra columns exist if table was created previously

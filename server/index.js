@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const assessmentRoutes = require('./routes/assessment');
 const adminRoutes = require('./routes/admin');
 const questionRoutes = require('./routes/questions');
+const contactRoutes = require('./routes/contact');
 
 const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
@@ -70,6 +71,7 @@ app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/assessment', assessmentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/questions', questionRoutes);
+app.use('/api/contact', contactRoutes);
 
 // --- Serve Frontend in Production ---
 if (isProduction) {

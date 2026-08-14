@@ -91,4 +91,41 @@ router.post('/clear-responses', (req, res) => {
   }
 });
 
+// Get all Get in Touch contact messages
+router.get('/messages', (req, res) => {
+  try {
+    const messages = db.prepare('SELECT * FROM contact_messages ORDER BY created_at DESC').all();
+    res.json(messages);
+  } catch (err) {
+    console.error('Error fetching messages:', err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+// Delete a specific contact message
+router.delete('/messages/:id', (req, res) => {
+  const { id } = req.params;
+  try {
+    db.prepare('DELETE FROM contact_messages WHERE id = ?').run(id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error deleting message:', err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+// Clear all contact messages
+router.post('/clear-messages', (req, res) => {
+  try {
+    db.prepare('DELETE FROM contact_messages').run();
+    try {
+      db.prepare("DELETE FROM sqlite_sequence WHERE name = 'contact_messages'").run();
+    } catch (e) {}
+    res.json({ success: true, message: 'All contact messages cleared successfully.' });
+  } catch (err) {
+    console.error('Error clearing messages:', err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
 module.exports = router;

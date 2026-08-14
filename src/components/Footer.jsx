@@ -66,22 +66,23 @@ const Footer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col items-center gap-5 text-[18px]"
+          className="flex flex-col items-center gap-4 text-[17px]"
         >
           <Link to="/" className="hover:text-brand-pink transition-colors">Home</Link>
           <Link to="/assessment/register" className="hover:text-brand-pink transition-colors">Registration</Link>
+          <a href="/#contact" onClick={() => { navigate('/'); setTimeout(() => { const el = document.getElementById('contact'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 100); }} className="hover:text-brand-pink transition-colors cursor-pointer">Get in Touch</a>
           {localStorage.getItem('token') && (
             <>
               <Link to="/assessment/question" className="hover:text-brand-pink transition-colors">Assessment</Link>
               <button 
                 onClick={() => { localStorage.removeItem('token'); localStorage.removeItem('user'); navigate('/'); }} 
-                className="hover:text-brand-pink transition-colors cursor-pointer text-base text-brand-pink/90"
+                className="hover:text-brand-pink transition-colors cursor-pointer text-sm text-brand-pink/90"
               >
                 Logout
               </button>
             </>
           )}
-          <Link to="/admin/login" className="hover:text-brand-pink transition-colors text-sm opacity-75 mt-1">Admin Login</Link>
+          <Link to="/admin/login" className="hover:text-brand-pink transition-colors text-xs opacity-75 mt-1">Admin Login</Link>
         </motion.nav>
 
         {/* Right Section: Actions */}

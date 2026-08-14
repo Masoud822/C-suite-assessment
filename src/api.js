@@ -512,3 +512,89 @@ export const deleteQuestion = async (id) => {
   localStorage.setItem('local_custom_questions', JSON.stringify(filtered));
   return { success: true };
 };
+
+// --- Contact / Get in Touch Messages API ---
+
+export const submitContactMessage = async (messageData) => {
+  try {
+    const res = await fetch(`${API_URL}/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(messageData)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  // Local fallback for static hosting
+  const stored = JSON.parse(localStorage.getItem('local_contact_messages') || '[]');
+  const newMessage = {
+    id: Date.now(),
+    name: messageData.name,
+    email: messageData.email,
+    phone: messageData.phone || '',
+    company: messageData.company || '',
+    subject: messageData.subject || 'General Inquiry',
+    message: messageData.message,
+    created_at: new Date().toISOString()
+  };
+  stored.unshift(newMessage);
+  localStorage.setItem('local_contact_messages', JSON.stringify(stored));
+  return { success: true, messageId: newMessage.id };
+};
+
+export const getAdminMessages = async () => {
+  try {
+    const res = await fetch(`${API_URL}/admin/messages`, {
+      method: 'GET',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const stored = JSON.parse(localStorage.getItem('local_contact_messages') || '[]');
+  return stored;
+};
+
+export const deleteAdminMessage = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/admin/messages/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const stored = JSON.parse(localStorage.getItem('local_contact_messages') || '[]');
+  const filtered = stored.filter(m => m.id !== id);
+  localStorage.setItem('local_contact_messages', JSON.stringify(filtered));
+  return { success: true };
+};
+
+export const clearAdminMessages = async () => {
+  try {
+    const res = await fetch(`${API_URL}/admin/clear-messages`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  localStorage.removeItem('local_contact_messages');
+  return { success: true };
+};
