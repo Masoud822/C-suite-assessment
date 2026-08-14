@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Sacramento&family=Birthstone+Bounce:wght@500;600&family=Allura&family=Alex+Brush&family=Caveat:wght@400;600&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-light: #FAF8F6;
+  --color-brand-primary: #003A8F;
+  --color-brand-pink: #EB9BAF;
+  
+  --font-sans: 'Poppins', sans-serif;
+  --font-handwriting: 'Sacramento', 'Birthstone Bounce', 'Amsterdam', 'Amsterdam Signature', 'Allura', 'Alex Brush', cursive;
+  --font-signature: 'Sacramento', 'Birthstone Bounce', 'Amsterdam', 'Amsterdam Signature', 'Allura', 'Alex Brush', cursive;
+
+  --background-image-hero-gradient: linear-gradient(to bottom, rgba(0,58,143,0.8) 53.85%, rgba(160,158,156,0.01) 100%);
+}
+
+body {
+  background-color: var(--color-brand-light);
+  color: var(--color-brand-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input, textarea, select, [contenteditable="true"] {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
