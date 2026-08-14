@@ -10,12 +10,12 @@
       "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/",
       "score": 4,
       "total_questions": 30,
-      "cefr_level": "In Progress",
-      "c_suite_level": "29/30 Answered",
+      "cefr_level": "B1",
+      "c_suite_level": "Emerging Professional",
       "infractions_count": 1,
-      "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T19:46:35.839Z",
-      "completed_at": null,
+      "status": "COMPLETED",
+      "started_at": "2026-08-14T19:46:39.347Z",
+      "completed_at": "2026-08-14T19:46:39.347Z",
       "answers": {
         "1": -1,
         "2": -1,
@@ -45,7 +45,8 @@
         "26": 1,
         "27": 1,
         "28": 1,
-        "29": 2
+        "29": 2,
+        "30": 1
       },
       "report": {
         "score": 4,
