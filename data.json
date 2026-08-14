@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 14,
+      "score": 15,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "27/30 Answered",
+      "c_suite_level": "28/30 Answered",
       "infractions_count": 1,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T19:52:23.716Z",
+      "started_at": "2026-08-14T19:52:26.817Z",
       "completed_at": null,
       "answers": {
         "1": 2,
@@ -43,18 +43,19 @@
         "24": 2,
         "25": 2,
         "26": 1,
-        "27": 2
+        "27": 2,
+        "28": 1
       },
       "report": {
-        "score": 14,
+        "score": 15,
         "totalQuestions": 30,
-        "accuracy": 47,
+        "accuracy": 50,
         "cefrLevel": "B1",
         "cSuiteStage": {
           "title": "Emerging Professional",
           "description": "Developing conversational and technical English, but struggling with boardroom nuance and persuasion."
         },
-        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (47% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
+        "diagnosticSummary": "Based on your responses across Grammar, Lexical Resource, and Leadership Judgment, your executive communication readiness aligns with CEFR Level B1 (50% accuracy). Developing conversational and technical English, but struggling with boardroom nuance and persuasion.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -80,11 +81,11 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 7,
+            "score": 8,
             "total": 10,
-            "percentage": 70,
-            "badge": "COMPETENT",
-            "badgeType": "info"
+            "percentage": 80,
+            "badge": "STRONG",
+            "badgeType": "success"
           }
         ],
         "recommendedPath": [
