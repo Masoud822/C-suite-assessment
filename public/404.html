@@ -4,17 +4,13 @@
     <meta charset="utf-8">
     <title>Sarah Safaa - C-Suite English Assessment</title>
     <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // https://github.com/rafgraph/spa-github-pages
-      var pathSegmentsToKeep = 1;
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+      // Clean redirect for GitHub Pages to HashRouter
+      var path = window.location.pathname;
+      var segments = path.split('/').filter(Boolean);
+      var repo = segments[0] || 'C-suite-assessment';
+      var subPath = segments.slice(1).join('/');
+      var target = window.location.origin + '/' + repo + '/#/' + subPath + (window.location.search || '') + (window.location.hash || '');
+      window.location.replace(target);
     </script>
   </head>
   <body>

@@ -1,12 +1,11 @@
 import React from 'react'
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import LandingPage from './pages/LandingPage'
 import AssessmentRegistrationPage from './pages/AssessmentRegistrationPage'
 import AssessmentQuestionPage from './pages/AssessmentQuestionPage'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminLoginPage from './pages/AdminLoginPage'
-import NotFoundPage from './pages/NotFoundPage'
 import GuestRoute from './components/GuestRoute'
 
 function App() {
@@ -26,7 +25,8 @@ function App() {
           <Route path="assessment/question" element={<AssessmentQuestionPage />} />
           <Route path="admin" element={<AdminDashboard />} />
           <Route path="admin/login" element={<AdminLoginPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+          {/* Catch-all fallback directly to Home Landing Page to prevent 404 screen */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
     </HashRouter>
