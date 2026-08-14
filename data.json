@@ -8,14 +8,14 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 14,
+      "score": 15,
       "total_questions": 30,
-      "cefr_level": "In Progress",
-      "c_suite_level": "29/30 Answered",
+      "cefr_level": "A2",
+      "c_suite_level": "Operational Communicator",
       "infractions_count": 0,
-      "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T20:17:11.199Z",
-      "completed_at": null,
+      "status": "COMPLETED",
+      "started_at": "2026-08-14T20:17:14.794Z",
+      "completed_at": "2026-08-14T20:17:14.794Z",
       "answers": {
         "1": 3,
         "2": 3,
@@ -45,7 +45,8 @@
         "26": 1,
         "27": 2,
         "28": 1,
-        "29": 2
+        "29": 2,
+        "30": 2
       },
       "report": {
         "candidate": {
@@ -54,10 +55,10 @@
           "role": "ceo",
           "linkedin": ""
         },
-        "score": 14,
+        "score": 15,
         "totalQuestions": 30,
-        "accuracy": 47,
-        "scoreOutOf40": 19,
+        "accuracy": 50,
+        "scoreOutOf40": 20,
         "cefrLevel": "A2",
         "cSuiteStage": {
           "title": "Operational Communicator",
@@ -90,9 +91,9 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 8,
+            "score": 9,
             "total": 10,
-            "percentage": 80,
+            "percentage": 90,
             "badge": "STRONG",
             "badgeType": "success"
           }
