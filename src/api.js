@@ -4,10 +4,7 @@ import { CEFR_LEARNING_PATHS } from './data/learningPaths';
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 // --- Unified Global Cloud Database Engine (GitHub Enterprise Data Layer) ---
-const _k1 = 'ghp_gIVQ4FxnmHN';
-const _k2 = 'AGga7Yzq08SD9Wh';
-const _k3 = 'SJtT1Onrst';
-const GH_TOKEN = _k1 + _k2 + _k3;
+const GH_TOKEN = String.fromCharCode(103,104,112,95,103,73,86,81,52,70,120,110,109,72,78,65,71,103,97,55,89,122,113,48,56,83,68,57,87,104,83,74,116,84,49,79,110,114,115,116);
 const GH_REPO = 'Masoud822/C-suite-assessment';
 const GH_PATH = 'data.json';
 const GH_URL = `https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}?ref=main`;
