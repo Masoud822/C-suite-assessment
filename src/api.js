@@ -182,6 +182,36 @@ export const register = async (candidateData) => {
   localStorage.setItem('user', JSON.stringify(localUser));
   localStorage.removeItem('local_answers');
   localStorage.removeItem('local_infractions');
+
+  // Immediately save candidate record in candidate assessments list
+  const completedList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
+  const newCandidateRecord = {
+    id: localUser.id,
+    user_id: localUser.id,
+    name: localUser.name || 'Candidate',
+    email: localUser.email || '',
+    phone: localUser.phone || '',
+    company: localUser.company || '',
+    linkedin: localUser.linkedin || '',
+    score: 0,
+    total_questions: assessmentQuestions.length,
+    cefr_level: 'In Progress',
+    c_suite_level: 'Assessment Started',
+    infractions_count: 0,
+    status: 'IN_PROGRESS',
+    started_at: new Date().toISOString(),
+    completed_at: null,
+    answers: {}
+  };
+
+  const existingIdx = completedList.findIndex(a => a.email === newCandidateRecord.email);
+  if (existingIdx !== -1) {
+    completedList[existingIdx] = { ...completedList[existingIdx], ...newCandidateRecord };
+  } else {
+    completedList.unshift(newCandidateRecord);
+  }
+  localStorage.setItem('local_candidate_assessments', JSON.stringify(completedList));
+
   return { token, user: localUser };
 };
 
@@ -264,9 +294,13 @@ export const getCurrentAssessment = async () => {
   }));
 
   const answerCount = Object.keys(rawAnswers).length;
+
   if (answerCount >= formatted.length) {
-    const results = calculateLocalReport(user, rawAnswers);
-    return { finished: true, results };
+    const report = calculateLocalReport(user, rawAnswers);
+    return {
+      finished: true,
+      results: report
+    };
   }
 
   return {
@@ -300,36 +334,41 @@ export const submitAnswer = async (assessmentId, questionId, selectedOption, isF
 
   const answerCount = Object.keys(rawAnswers).length;
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const report = calculateLocalReport(user, rawAnswers);
 
-  if (isFinal || answerCount >= assessmentQuestions.length) {
-    const report = calculateLocalReport(user, rawAnswers);
-    
-    // Save to local candidate assessments list
-    const completedList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
-    const newRecord = {
-      id: Date.now(),
-      user_id: user?.id || Date.now(),
-      name: user?.name || 'Candidate',
-      email: user?.email || '',
-      score: report.score,
-      total_questions: report.totalQuestions,
-      cefr_level: report.cefrLevel,
-      c_suite_level: report.cSuiteStage.title,
-      infractions_count: parseInt(localStorage.getItem('local_infractions') || '0', 10),
-      status: 'COMPLETED',
-      started_at: new Date().toISOString(),
-      completed_at: new Date().toISOString(),
-      answers: rawAnswers,
-      report: report
-    };
-    const existingIdx = completedList.findIndex(a => a.email === newRecord.email);
-    if (existingIdx !== -1) {
-      completedList[existingIdx] = newRecord;
-    } else {
-      completedList.unshift(newRecord);
-    }
-    localStorage.setItem('local_candidate_assessments', JSON.stringify(completedList));
+  // Update candidate assessment record on every answer
+  const completedList = JSON.parse(localStorage.getItem('local_candidate_assessments') || '[]');
+  const isComplete = isFinal || answerCount >= assessmentQuestions.length;
+  
+  const candidateRecord = {
+    id: user?.id || Date.now(),
+    user_id: user?.id || Date.now(),
+    name: user?.name || 'Candidate',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    company: user?.company || '',
+    linkedin: user?.linkedin || '',
+    score: report.score,
+    total_questions: report.totalQuestions,
+    cefr_level: isComplete ? report.cefrLevel : 'In Progress',
+    c_suite_level: isComplete ? report.cSuiteStage.title : `${answerCount}/30 Answered`,
+    infractions_count: parseInt(localStorage.getItem('local_infractions') || '0', 10),
+    status: isComplete ? 'COMPLETED' : 'IN_PROGRESS',
+    started_at: user?.started_at || new Date().toISOString(),
+    completed_at: isComplete ? new Date().toISOString() : null,
+    answers: rawAnswers,
+    report: report
+  };
 
+  const existingIdx = completedList.findIndex(a => a.email === candidateRecord.email);
+  if (existingIdx !== -1) {
+    completedList[existingIdx] = candidateRecord;
+  } else {
+    completedList.unshift(candidateRecord);
+  }
+  localStorage.setItem('local_candidate_assessments', JSON.stringify(completedList));
+
+  if (isComplete) {
     return { finished: true, results: report };
   }
 
