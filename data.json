@@ -114,13 +114,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/",
-      "score": 2,
+      "score": 3,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "6/30 Answered",
+      "c_suite_level": "7/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-14T20:02:08.097Z",
+      "started_at": "2026-08-14T20:02:11.989Z",
       "completed_at": null,
       "answers": {
         "1": 1,
@@ -128,7 +128,8 @@
         "3": 1,
         "4": 2,
         "5": 1,
-        "6": 2
+        "6": 2,
+        "7": 2
       },
       "report": {
         "candidate": {
@@ -137,10 +138,10 @@
           "role": "ui",
           "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/"
         },
-        "score": 2,
+        "score": 3,
         "totalQuestions": 30,
-        "accuracy": 7,
-        "scoreOutOf40": 3,
+        "accuracy": 10,
+        "scoreOutOf40": 4,
         "cefrLevel": "A1−",
         "cSuiteStage": {
           "title": "Starting Communicator",
@@ -153,9 +154,9 @@
             "category": "Grammar",
             "title": "GRAMMAR DECISIONS",
             "subtitle": "Grammatical mechanics & complex reported tenses.",
-            "score": 2,
+            "score": 3,
             "total": 10,
-            "percentage": 20,
+            "percentage": 30,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
