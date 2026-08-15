@@ -8,13 +8,13 @@
       "phone": "01023144208",
       "company": "no",
       "linkedin": "https://kkkk",
-      "score": 13,
+      "score": 14,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "28/30 Answered",
+      "c_suite_level": "29/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-15T03:23:51.165Z",
+      "started_at": "2026-08-15T03:23:56.045Z",
       "completed_at": null,
       "answers": {
         "1": 0,
@@ -44,7 +44,8 @@
         "25": 0,
         "26": 1,
         "27": 2,
-        "28": 0
+        "28": 0,
+        "29": 2
       },
       "report": {
         "candidate": {
@@ -53,10 +54,10 @@
           "role": "unemployed",
           "linkedin": "https://kkkk"
         },
-        "score": 13,
+        "score": 14,
         "totalQuestions": 30,
-        "accuracy": 43,
-        "scoreOutOf40": 17,
+        "accuracy": 47,
+        "scoreOutOf40": 19,
         "cefrLevel": "A2",
         "cSuiteStage": {
           "title": "Operational Communicator",
@@ -89,9 +90,9 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 2,
+            "score": 3,
             "total": 10,
-            "percentage": 20,
+            "percentage": 30,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           }
