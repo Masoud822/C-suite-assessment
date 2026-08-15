@@ -10,12 +10,12 @@
       "linkedin": "",
       "score": 12,
       "total_questions": 30,
-      "cefr_level": "In Progress",
-      "c_suite_level": "29/30 Answered",
+      "cefr_level": "A2−",
+      "c_suite_level": "Functional Communicator",
       "infractions_count": 1,
-      "status": "IN_PROGRESS",
-      "started_at": "2026-08-15T03:26:35.908Z",
-      "completed_at": null,
+      "status": "COMPLETED",
+      "started_at": "2026-08-15T03:26:45.032Z",
+      "completed_at": "2026-08-15T03:26:45.032Z",
       "answers": {
         "1": 0,
         "2": 1,
@@ -45,7 +45,8 @@
         "26": 2,
         "27": 2,
         "28": 1,
-        "29": 1
+        "29": 1,
+        "30": 0
       },
       "report": {
         "candidate": {
