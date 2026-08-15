@@ -8,19 +8,20 @@
       "phone": "01023144208",
       "company": "no",
       "linkedin": "https://kkkk",
-      "score": 3,
+      "score": 4,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "4/30 Answered",
+      "c_suite_level": "5/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-15T03:21:05.745Z",
+      "started_at": "2026-08-15T03:21:12.544Z",
       "completed_at": null,
       "answers": {
         "1": 0,
         "2": 1,
         "3": 2,
-        "4": 1
+        "4": 1,
+        "5": 2
       },
       "report": {
         "candidate": {
@@ -29,25 +30,25 @@
           "role": "unemployed",
           "linkedin": "https://kkkk"
         },
-        "score": 3,
+        "score": 4,
         "totalQuestions": 30,
-        "accuracy": 10,
-        "scoreOutOf40": 4,
-        "cefrLevel": "A1−",
+        "accuracy": 13,
+        "scoreOutOf40": 5,
+        "cefrLevel": "A1",
         "cSuiteStage": {
-          "title": "Starting Communicator",
-          "description": "Can communicate using a limited range of familiar words and expressions."
+          "title": "Beginner Communicator",
+          "description": "Can communicate simple ideas in familiar situations."
         },
-        "oneLineExplanation": "Can communicate using a limited range of familiar words and expressions.",
-        "diagnosticSummary": "You currently rely on a small range of familiar words, expressions, and simple sentence patterns. You may need substantial support to construct and sustain basic communication beyond highly familiar situations.",
+        "oneLineExplanation": "Can communicate simple ideas in familiar situations.",
+        "diagnosticSummary": "You can communicate simple messages in familiar situations using basic language. However, your communication is still limited by restricted vocabulary and inconsistent grammatical control, particularly when interactions become less predictable.",
         "sectionRatings": [
           {
             "category": "Grammar",
             "title": "GRAMMAR DECISIONS",
             "subtitle": "Grammatical mechanics & complex reported tenses.",
-            "score": 3,
+            "score": 4,
             "total": 10,
-            "percentage": 30,
+            "percentage": 40,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
@@ -74,30 +75,30 @@
         ],
         "recommendedPath": [
           {
-            "title": "Core English Foundations",
-            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
+            "title": "Essential Grammar Control",
+            "description": "Core sentence patterns, questions, negatives, and high-frequency tenses."
           },
           {
-            "title": "Workplace Survival Communication",
-            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
+            "title": "Professional Vocabulary Expansion",
+            "description": "Vocabulary for roles, teams, projects, meetings, and responsibilities."
           },
           {
-            "title": "Professional Sentence Production",
-            "description": "Move from isolated language to short, accurate professional statements and responses."
+            "title": "Controlled Speaking Practice",
+            "description": "Short workplace dialogues and structured speaking tasks."
           }
         ],
         "learningPath": [
           {
-            "title": "Core English Foundations",
-            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
+            "title": "Essential Grammar Control",
+            "description": "Core sentence patterns, questions, negatives, and high-frequency tenses."
           },
           {
-            "title": "Workplace Survival Communication",
-            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
+            "title": "Professional Vocabulary Expansion",
+            "description": "Vocabulary for roles, teams, projects, meetings, and responsibilities."
           },
           {
-            "title": "Professional Sentence Production",
-            "description": "Move from isolated language to short, accurate professional statements and responses."
+            "title": "Controlled Speaking Practice",
+            "description": "Short workplace dialogues and structured speaking tasks."
           }
         ]
       }
