@@ -11,10 +11,10 @@
       "score": 11,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "19/30 Answered",
+      "c_suite_level": "20/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-15T03:22:51.624Z",
+      "started_at": "2026-08-15T03:22:56.605Z",
       "completed_at": null,
       "answers": {
         "1": 0,
@@ -35,7 +35,8 @@
         "16": 1,
         "17": 2,
         "18": 1,
-        "19": 1
+        "19": 1,
+        "20": 2
       },
       "report": {
         "candidate": {
