@@ -1,6 +1,24 @@
 {
   "candidates": [
     {
+      "id": 1786764259089,
+      "user_id": 1786764259089,
+      "name": "Sarah Safaa",
+      "email": "sarah99safaa@gmail.com",
+      "phone": "01093849778",
+      "company": "",
+      "linkedin": "",
+      "score": 0,
+      "total_questions": 30,
+      "cefr_level": "In Progress",
+      "c_suite_level": "Assessment Started",
+      "infractions_count": 0,
+      "status": "IN_PROGRESS",
+      "started_at": "2026-08-15T03:24:19.089Z",
+      "completed_at": null,
+      "answers": {}
+    },
+    {
       "id": 1786764012903,
       "user_id": 1786764012903,
       "name": "MAHMOUD",
