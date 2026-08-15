@@ -8,13 +8,13 @@
       "phone": "01093849778",
       "company": "",
       "linkedin": "",
-      "score": 10,
+      "score": 11,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "26/30 Answered",
+      "c_suite_level": "27/30 Answered",
       "infractions_count": 1,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-15T03:26:21.965Z",
+      "started_at": "2026-08-15T03:26:26.869Z",
       "completed_at": null,
       "answers": {
         "1": 0,
@@ -42,7 +42,8 @@
         "23": 1,
         "24": 2,
         "25": 2,
-        "26": 2
+        "26": 2,
+        "27": 2
       },
       "report": {
         "candidate": {
@@ -51,10 +52,10 @@
           "role": "33",
           "linkedin": ""
         },
-        "score": 10,
+        "score": 11,
         "totalQuestions": 30,
-        "accuracy": 33,
-        "scoreOutOf40": 13,
+        "accuracy": 37,
+        "scoreOutOf40": 15,
         "cefrLevel": "A2−",
         "cSuiteStage": {
           "title": "Functional Communicator",
@@ -87,9 +88,9 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 4,
+            "score": 5,
             "total": 10,
-            "percentage": 40,
+            "percentage": 50,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           }
