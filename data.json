@@ -11,12 +11,93 @@
       "score": 0,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "Assessment Started",
+      "c_suite_level": "1/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T18:37:15.502Z",
+      "started_at": "2026-08-16T18:37:38.402Z",
       "completed_at": null,
-      "answers": {}
+      "answers": {
+        "1": 1
+      },
+      "report": {
+        "candidate": {
+          "name": "Omar",
+          "email": "omarmohamedfahmy04@gmail.com",
+          "role": "Ui",
+          "linkedin": ""
+        },
+        "score": 0,
+        "totalQuestions": 30,
+        "accuracy": 0,
+        "scoreOutOf40": 0,
+        "cefrLevel": "A1−",
+        "cSuiteStage": {
+          "title": "Starting Communicator",
+          "description": "Can communicate using a limited range of familiar words and expressions."
+        },
+        "oneLineExplanation": "Can communicate using a limited range of familiar words and expressions.",
+        "diagnosticSummary": "You currently rely on a small range of familiar words, expressions, and simple sentence patterns. You may need substantial support to construct and sustain basic communication beyond highly familiar situations.",
+        "sectionRatings": [
+          {
+            "category": "Grammar",
+            "title": "GRAMMAR DECISIONS",
+            "subtitle": "Grammatical mechanics & complex reported tenses.",
+            "score": 0,
+            "total": 10,
+            "percentage": 0,
+            "badge": "NEEDS IMPROVEMENT",
+            "badgeType": "warning"
+          },
+          {
+            "category": "Vocabulary",
+            "title": "C-SUITE LEXICAL RESOURCE",
+            "subtitle": "Precision corporate collocations & registry.",
+            "score": 0,
+            "total": 10,
+            "percentage": 0,
+            "badge": "NEEDS IMPROVEMENT",
+            "badgeType": "warning"
+          },
+          {
+            "category": "Situations",
+            "title": "COMMUNICATION JUDGMENT",
+            "subtitle": "Tactful, leadership-aligned workplace decisions.",
+            "score": 0,
+            "total": 10,
+            "percentage": 0,
+            "badge": "NEEDS IMPROVEMENT",
+            "badgeType": "warning"
+          }
+        ],
+        "recommendedPath": [
+          {
+            "title": "Core English Foundations",
+            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
+          },
+          {
+            "title": "Workplace Survival Communication",
+            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
+          },
+          {
+            "title": "Professional Sentence Production",
+            "description": "Move from isolated language to short, accurate professional statements and responses."
+          }
+        ],
+        "learningPath": [
+          {
+            "title": "Core English Foundations",
+            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
+          },
+          {
+            "title": "Workplace Survival Communication",
+            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
+          },
+          {
+            "title": "Professional Sentence Production",
+            "description": "Move from isolated language to short, accurate professional statements and responses."
+          }
+        ]
+      }
     },
     {
       "id": 1786887970405,
