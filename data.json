@@ -754,41 +754,43 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 0,
+      "score": 1,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "Assessment Started",
+      "c_suite_level": "1/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T15:38:51.984Z",
+      "started_at": "2026-08-16T15:39:00.234Z",
       "completed_at": null,
-      "answers": {},
+      "answers": {
+        "1": 0
+      },
       "report": {
         "candidate": {
           "name": "AbdelRahman Masoud",
           "email": "abdelrahmanmasoud824@gmail.com",
-          "role": "ux",
-          "linkedin": "https://www.linkedin.com/in/abdel-rahman-massoud-727323411/"
+          "role": "ui",
+          "linkedin": ""
         },
-        "score": 16,
+        "score": 1,
         "totalQuestions": 30,
-        "accuracy": 53,
-        "scoreOutOf40": 21,
-        "cefrLevel": "A2+",
+        "accuracy": 3,
+        "scoreOutOf40": 1,
+        "cefrLevel": "A1−",
         "cSuiteStage": {
-          "title": "Developing Communicator",
-          "description": "Can communicate across a wider range of routine professional situations."
+          "title": "Starting Communicator",
+          "description": "Can communicate using a limited range of familiar words and expressions."
         },
-        "oneLineExplanation": "Can communicate across a wider range of routine professional situations.",
-        "diagnosticSummary": "You can communicate across a wider range of routine professional situations and express your ideas with increasing independence. However, limitations in accuracy, vocabulary selection, fluency, and flexibility may still affect your effectiveness in more demanding interactions.",
+        "oneLineExplanation": "Can communicate using a limited range of familiar words and expressions.",
+        "diagnosticSummary": "You currently rely on a small range of familiar words, expressions, and simple sentence patterns. You may need substantial support to construct and sustain basic communication beyond highly familiar situations.",
         "sectionRatings": [
           {
             "category": "Grammar",
             "title": "GRAMMAR DECISIONS",
             "subtitle": "Grammatical mechanics & complex reported tenses.",
-            "score": 3,
+            "score": 1,
             "total": 10,
-            "percentage": 30,
+            "percentage": 10,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
@@ -796,9 +798,9 @@
             "category": "Vocabulary",
             "title": "C-SUITE LEXICAL RESOURCE",
             "subtitle": "Precision corporate collocations & registry.",
-            "score": 3,
+            "score": 0,
             "total": 10,
-            "percentage": 30,
+            "percentage": 0,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
@@ -806,39 +808,39 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 10,
+            "score": 0,
             "total": 10,
-            "percentage": 100,
-            "badge": "STRONG",
-            "badgeType": "success"
+            "percentage": 0,
+            "badge": "NEEDS IMPROVEMENT",
+            "badgeType": "warning"
           }
         ],
         "recommendedPath": [
           {
-            "title": "Language Decision Framework",
-            "description": "Connect communication intentions with appropriate grammar choices."
+            "title": "Core English Foundations",
+            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
           },
           {
-            "title": "Professional Lexical Precision",
-            "description": "Develop collocations, executive verbs, precise vocabulary, and register awareness."
+            "title": "Workplace Survival Communication",
+            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
           },
           {
-            "title": "Meeting & Discussion Fluency",
-            "description": "Explaining decisions, giving updates, responding to questions, and expressing opinions."
+            "title": "Professional Sentence Production",
+            "description": "Move from isolated language to short, accurate professional statements and responses."
           }
         ],
         "learningPath": [
           {
-            "title": "Language Decision Framework",
-            "description": "Connect communication intentions with appropriate grammar choices."
+            "title": "Core English Foundations",
+            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
           },
           {
-            "title": "Professional Lexical Precision",
-            "description": "Develop collocations, executive verbs, precise vocabulary, and register awareness."
+            "title": "Workplace Survival Communication",
+            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
           },
           {
-            "title": "Meeting & Discussion Fluency",
-            "description": "Explaining decisions, giving updates, responding to questions, and expressing opinions."
+            "title": "Professional Sentence Production",
+            "description": "Move from isolated language to short, accurate professional statements and responses."
           }
         ]
       }
