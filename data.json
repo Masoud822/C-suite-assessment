@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 5,
+      "score": 6,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "18/30 Answered",
+      "c_suite_level": "19/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T18:39:45.296Z",
+      "started_at": "2026-08-16T18:40:00.984Z",
       "completed_at": null,
       "answers": {
         "1": 1,
@@ -34,7 +34,8 @@
         "15": 3,
         "16": 1,
         "17": 0,
-        "18": 0
+        "18": 0,
+        "19": 1
       },
       "report": {
         "candidate": {
@@ -43,10 +44,10 @@
           "role": "Ui",
           "linkedin": ""
         },
-        "score": 5,
+        "score": 6,
         "totalQuestions": 30,
-        "accuracy": 17,
-        "scoreOutOf40": 7,
+        "accuracy": 20,
+        "scoreOutOf40": 8,
         "cefrLevel": "A1",
         "cSuiteStage": {
           "title": "Beginner Communicator",
@@ -69,9 +70,9 @@
             "category": "Vocabulary",
             "title": "C-SUITE LEXICAL RESOURCE",
             "subtitle": "Precision corporate collocations & registry.",
-            "score": 3,
+            "score": 4,
             "total": 10,
-            "percentage": 30,
+            "percentage": 40,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
