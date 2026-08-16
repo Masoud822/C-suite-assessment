@@ -1,6 +1,24 @@
 {
   "candidates": [
     {
+      "id": 1786905435502,
+      "user_id": 1786905435502,
+      "name": "Omar",
+      "email": "omarmohamedfahmy04@gmail.com",
+      "phone": "01010111837",
+      "company": "",
+      "linkedin": "",
+      "score": 0,
+      "total_questions": 30,
+      "cefr_level": "In Progress",
+      "c_suite_level": "Assessment Started",
+      "infractions_count": 0,
+      "status": "IN_PROGRESS",
+      "started_at": "2026-08-16T18:37:15.502Z",
+      "completed_at": null,
+      "answers": {}
+    },
+    {
       "id": 1786887970405,
       "user_id": 1786887970405,
       "name": "Sarah Safaa",
