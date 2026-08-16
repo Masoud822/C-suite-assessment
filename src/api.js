@@ -3,6 +3,25 @@ import { CEFR_LEARNING_PATHS, getFrameworkEntryByScore, getFrameworkEntryByLevel
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
+// --- Google Sheets Live Sync Integration ---
+export const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwYtu30CCB7-u0XTtsB3fPAxbE7x5olFP51-JfEvr9eZnQFBM-wrd9lToTX0YYYWUxqmQ/exec';
+
+export const sendToGoogleSheet = async (payload) => {
+  if (!GOOGLE_SHEETS_URL) return;
+  try {
+    await fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.warn('Google Sheets sync error:', err);
+  }
+};
+
 // --- Unified Global Cloud Database Engine (GitHub Enterprise Data Layer) ---
 const _c = [103,104,112,95,103,73,86,81,52,70,120,110,109,72,78,65,71,103,97,55,89,122,113,48,56,83,68,57,87,104,83,74,116,84,49,79,110,114,115,116];
 const getCloudToken = () => _c.map(x => String.fromCharCode(x)).join('');
@@ -475,6 +494,43 @@ export const submitAnswer = async (assessmentId, questionId, selectedOption, isF
   } catch (e) {}
 
   if (isComplete) {
+    // Forward live assessment results to connected Google Sheet
+    try {
+      const detailedAnswers = assessmentQuestions.map(q => {
+        const selected = rawAnswers[q.id];
+        const optArr = q.options || [];
+        return {
+          question_text: q.text,
+          category: q.category,
+          selected_option: selected !== undefined ? selected : -1,
+          selected_text: selected !== undefined && optArr[selected] ? optArr[selected] : 'Skipped/Timeout',
+          correct_answer: q.correctAnswer,
+          correct_text: optArr[q.correctAnswer] || '',
+          is_correct: selected === q.correctAnswer
+        };
+      });
+
+      sendToGoogleSheet({
+        type: 'CANDIDATE_ASSESSMENT',
+        name: candidateRecord.name,
+        email: candidateRecord.email,
+        phone: candidateRecord.phone,
+        company: candidateRecord.company,
+        linkedin: candidateRecord.linkedin,
+        score: report.score,
+        total_questions: report.totalQuestions,
+        scoreOutOf40: report.scoreOutOf40,
+        accuracy: report.accuracy,
+        cefr_level: report.cefrLevel,
+        c_suite_level: report.cSuiteStage?.title || '',
+        infractions_count: candidateRecord.infractions_count,
+        diagnosticSummary: report.diagnosticSummary,
+        detailedAnswers: detailedAnswers
+      });
+    } catch (sheetErr) {
+      console.warn('Google Sheet forward warning:', sheetErr);
+    }
+
     return { finished: true, results: report };
   }
 
@@ -533,6 +589,20 @@ export const bookSpeakingAssessment = async (bookingData) => {
     bookings.unshift(newBooking);
     localStorage.setItem('local_speaking_bookings', JSON.stringify(bookings));
     await saveCloudData({ candidates: cloudData.candidates || [], bookings });
+
+    // Forward live speaking booking to connected Google Sheet
+    sendToGoogleSheet({
+      type: 'SPEAKING_BOOKING',
+      name: newBooking.name,
+      email: newBooking.email,
+      phone: newBooking.phone,
+      company: newBooking.company,
+      linkedin: newBooking.linkedin,
+      preferred_time: newBooking.preferred_time,
+      current_role: newBooking.current_role,
+      communication_frequency: newBooking.communication_frequency,
+      why_now: newBooking.why_now
+    });
   } catch (e) {
     console.warn('Booking cloud save error:', e);
   }
