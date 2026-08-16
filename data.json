@@ -8,14 +8,14 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 15,
+      "score": 16,
       "total_questions": 30,
-      "cefr_level": "In Progress",
-      "c_suite_level": "29/30 Answered",
+      "cefr_level": "A2+",
+      "c_suite_level": "Developing Communicator",
       "infractions_count": 0,
-      "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T18:41:07.441Z",
-      "completed_at": null,
+      "status": "COMPLETED",
+      "started_at": "2026-08-16T18:41:12.022Z",
+      "completed_at": "2026-08-16T18:41:12.022Z",
       "answers": {
         "1": 1,
         "2": 2,
@@ -45,7 +45,8 @@
         "26": 1,
         "27": 2,
         "28": 1,
-        "29": 2
+        "29": 2,
+        "30": 2
       },
       "report": {
         "candidate": {
@@ -54,17 +55,17 @@
           "role": "Ui",
           "linkedin": ""
         },
-        "score": 15,
+        "score": 16,
         "totalQuestions": 30,
-        "accuracy": 50,
-        "scoreOutOf40": 20,
-        "cefrLevel": "A2",
+        "accuracy": 53,
+        "scoreOutOf40": 21,
+        "cefrLevel": "A2+",
         "cSuiteStage": {
-          "title": "Operational Communicator",
-          "description": "Can communicate effectively in familiar workplace situations."
+          "title": "Developing Communicator",
+          "description": "Can communicate across a wider range of routine professional situations."
         },
-        "oneLineExplanation": "Can communicate effectively in familiar workplace situations.",
-        "diagnosticSummary": "You can communicate effectively in familiar workplace situations and complete routine communicative tasks. To progress further, you need to develop greater precision, flexibility, and consistency in more complex professional interactions.",
+        "oneLineExplanation": "Can communicate across a wider range of routine professional situations.",
+        "diagnosticSummary": "You can communicate across a wider range of routine professional situations and express your ideas with increasing independence. However, limitations in accuracy, vocabulary selection, fluency, and flexibility may still affect your effectiveness in more demanding interactions.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -90,39 +91,39 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 9,
+            "score": 10,
             "total": 10,
-            "percentage": 90,
+            "percentage": 100,
             "badge": "STRONG",
             "badgeType": "success"
           }
         ],
         "recommendedPath": [
           {
-            "title": "Grammar Precision",
-            "description": "Improve accuracy and automaticity across core professional grammar patterns."
+            "title": "Language Decision Framework",
+            "description": "Connect communication intentions with appropriate grammar choices."
           },
           {
-            "title": "C-Suite Vocabulary Foundation",
-            "description": "Professional collocations, workplace terminology, and precise alternatives to basic vocabulary."
+            "title": "Professional Lexical Precision",
+            "description": "Develop collocations, executive verbs, precise vocabulary, and register awareness."
           },
           {
-            "title": "Professional Interaction Skills",
-            "description": "Meetings, updates, explanations, clarification, and workplace problem-solving."
+            "title": "Meeting & Discussion Fluency",
+            "description": "Explaining decisions, giving updates, responding to questions, and expressing opinions."
           }
         ],
         "learningPath": [
           {
-            "title": "Grammar Precision",
-            "description": "Improve accuracy and automaticity across core professional grammar patterns."
+            "title": "Language Decision Framework",
+            "description": "Connect communication intentions with appropriate grammar choices."
           },
           {
-            "title": "C-Suite Vocabulary Foundation",
-            "description": "Professional collocations, workplace terminology, and precise alternatives to basic vocabulary."
+            "title": "Professional Lexical Precision",
+            "description": "Develop collocations, executive verbs, precise vocabulary, and register awareness."
           },
           {
-            "title": "Professional Interaction Skills",
-            "description": "Meetings, updates, explanations, clarification, and workplace problem-solving."
+            "title": "Meeting & Discussion Fluency",
+            "description": "Explaining decisions, giving updates, responding to questions, and expressing opinions."
           }
         ]
       }
