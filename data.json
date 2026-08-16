@@ -8,20 +8,21 @@
       "phone": "01093849778",
       "company": "",
       "linkedin": "",
-      "score": 1,
+      "score": 2,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "5/30 Answered",
+      "c_suite_level": "6/30 Answered",
       "infractions_count": 2,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T13:48:19.067Z",
+      "started_at": "2026-08-16T13:48:22.318Z",
       "completed_at": null,
       "answers": {
         "1": 0,
         "2": 3,
         "3": 3,
         "4": 0,
-        "5": 1
+        "5": 1,
+        "6": 2
       },
       "report": {
         "candidate": {
@@ -30,10 +31,10 @@
           "role": "33",
           "linkedin": ""
         },
-        "score": 1,
+        "score": 2,
         "totalQuestions": 30,
-        "accuracy": 3,
-        "scoreOutOf40": 1,
+        "accuracy": 7,
+        "scoreOutOf40": 3,
         "cefrLevel": "A1−",
         "cSuiteStage": {
           "title": "Starting Communicator",
@@ -46,9 +47,9 @@
             "category": "Grammar",
             "title": "GRAMMAR DECISIONS",
             "subtitle": "Grammatical mechanics & complex reported tenses.",
-            "score": 1,
+            "score": 2,
             "total": 10,
-            "percentage": 10,
+            "percentage": 20,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
