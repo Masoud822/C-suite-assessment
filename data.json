@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 9,
+      "score": 10,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "23/30 Answered",
+      "c_suite_level": "24/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T18:40:35.122Z",
+      "started_at": "2026-08-16T18:40:44.570Z",
       "completed_at": null,
       "answers": {
         "1": 1,
@@ -39,7 +39,8 @@
         "20": 2,
         "21": 1,
         "22": 1,
-        "23": 1
+        "23": 1,
+        "24": 2
       },
       "report": {
         "candidate": {
@@ -48,17 +49,17 @@
           "role": "Ui",
           "linkedin": ""
         },
-        "score": 9,
+        "score": 10,
         "totalQuestions": 30,
-        "accuracy": 30,
-        "scoreOutOf40": 12,
-        "cefrLevel": "A1+",
+        "accuracy": 33,
+        "scoreOutOf40": 13,
+        "cefrLevel": "A2−",
         "cSuiteStage": {
-          "title": "Basic Communicator",
-          "description": "Can handle basic conversations on familiar topics."
+          "title": "Functional Communicator",
+          "description": "Can manage routine conversations in everyday and workplace contexts."
         },
-        "oneLineExplanation": "Can handle basic conversations on familiar topics.",
-        "diagnosticSummary": "You can participate in basic conversations on familiar topics and communicate straightforward messages. You may experience greater difficulty when you need to use language spontaneously, maintain grammatical accuracy, or adapt your language to new situations.",
+        "oneLineExplanation": "Can manage routine conversations in everyday and workplace contexts.",
+        "diagnosticSummary": "You can manage routine everyday and workplace communication. Your communication is generally functional, although your accuracy, clarity, and language control may become inconsistent when situations are less familiar or more demanding.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -84,39 +85,39 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 3,
+            "score": 4,
             "total": 10,
-            "percentage": 30,
+            "percentage": 40,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           }
         ],
         "recommendedPath": [
           {
-            "title": "Grammar Accuracy & Control",
-            "description": "Strengthen core tense patterns, sentence structures, and question formation."
+            "title": "Grammar Decision-Making",
+            "description": "Develop faster selection and production of core grammatical structures."
           },
           {
-            "title": "Professional Vocabulary & Collocations",
-            "description": "Build natural workplace combinations and expressions."
+            "title": "Workplace Communication Vocabulary",
+            "description": "Meetings, updates, deadlines, projects, clients, and responsibilities."
           },
           {
-            "title": "Spontaneous Workplace Speaking",
-            "description": "Practice responding, explaining, clarifying, and giving simple opinions."
+            "title": "Functional Professional Speaking",
+            "description": "Giving updates, describing problems, requesting information, and responding to colleagues."
           }
         ],
         "learningPath": [
           {
-            "title": "Grammar Accuracy & Control",
-            "description": "Strengthen core tense patterns, sentence structures, and question formation."
+            "title": "Grammar Decision-Making",
+            "description": "Develop faster selection and production of core grammatical structures."
           },
           {
-            "title": "Professional Vocabulary & Collocations",
-            "description": "Build natural workplace combinations and expressions."
+            "title": "Workplace Communication Vocabulary",
+            "description": "Meetings, updates, deadlines, projects, clients, and responsibilities."
           },
           {
-            "title": "Spontaneous Workplace Speaking",
-            "description": "Practice responding, explaining, clarifying, and giving simple opinions."
+            "title": "Functional Professional Speaking",
+            "description": "Giving updates, describing problems, requesting information, and responding to colleagues."
           }
         ]
       }
