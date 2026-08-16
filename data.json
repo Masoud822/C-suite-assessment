@@ -8,15 +8,17 @@
       "phone": "01093849778",
       "company": "",
       "linkedin": "",
-      "score": 0,
+      "score": 1,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "Assessment Started",
-      "infractions_count": 0,
+      "c_suite_level": "1/30 Answered",
+      "infractions_count": 1,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T13:46:10.405Z",
+      "started_at": "2026-08-16T13:47:54.999Z",
       "completed_at": null,
-      "answers": {},
+      "answers": {
+        "1": 0
+      },
       "report": {
         "candidate": {
           "name": "Sarah Safaa",
@@ -24,25 +26,25 @@
           "role": "33",
           "linkedin": ""
         },
-        "score": 12,
+        "score": 1,
         "totalQuestions": 30,
-        "accuracy": 40,
-        "scoreOutOf40": 16,
-        "cefrLevel": "A2−",
+        "accuracy": 3,
+        "scoreOutOf40": 1,
+        "cefrLevel": "A1−",
         "cSuiteStage": {
-          "title": "Functional Communicator",
-          "description": "Can manage routine conversations in everyday and workplace contexts."
+          "title": "Starting Communicator",
+          "description": "Can communicate using a limited range of familiar words and expressions."
         },
-        "oneLineExplanation": "Can manage routine conversations in everyday and workplace contexts.",
-        "diagnosticSummary": "You can manage routine everyday and workplace communication. Your communication is generally functional, although your accuracy, clarity, and language control may become inconsistent when situations are less familiar or more demanding.",
+        "oneLineExplanation": "Can communicate using a limited range of familiar words and expressions.",
+        "diagnosticSummary": "You currently rely on a small range of familiar words, expressions, and simple sentence patterns. You may need substantial support to construct and sustain basic communication beyond highly familiar situations.",
         "sectionRatings": [
           {
             "category": "Grammar",
             "title": "GRAMMAR DECISIONS",
             "subtitle": "Grammatical mechanics & complex reported tenses.",
-            "score": 4,
+            "score": 1,
             "total": 10,
-            "percentage": 40,
+            "percentage": 10,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
@@ -50,9 +52,9 @@
             "category": "Vocabulary",
             "title": "C-SUITE LEXICAL RESOURCE",
             "subtitle": "Precision corporate collocations & registry.",
-            "score": 2,
+            "score": 0,
             "total": 10,
-            "percentage": 20,
+            "percentage": 0,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
@@ -60,39 +62,39 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 6,
+            "score": 0,
             "total": 10,
-            "percentage": 60,
-            "badge": "COMPETENT",
-            "badgeType": "info"
+            "percentage": 0,
+            "badge": "NEEDS IMPROVEMENT",
+            "badgeType": "warning"
           }
         ],
         "recommendedPath": [
           {
-            "title": "Grammar Decision-Making",
-            "description": "Develop faster selection and production of core grammatical structures."
+            "title": "Core English Foundations",
+            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
           },
           {
-            "title": "Workplace Communication Vocabulary",
-            "description": "Meetings, updates, deadlines, projects, clients, and responsibilities."
+            "title": "Workplace Survival Communication",
+            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
           },
           {
-            "title": "Functional Professional Speaking",
-            "description": "Giving updates, describing problems, requesting information, and responding to colleagues."
+            "title": "Professional Sentence Production",
+            "description": "Move from isolated language to short, accurate professional statements and responses."
           }
         ],
         "learningPath": [
           {
-            "title": "Grammar Decision-Making",
-            "description": "Develop faster selection and production of core grammatical structures."
+            "title": "Core English Foundations",
+            "description": "Essential sentence structures, subject–verb relationships, basic questions, negatives, and high-frequency professional vocabulary."
           },
           {
-            "title": "Workplace Communication Vocabulary",
-            "description": "Meetings, updates, deadlines, projects, clients, and responsibilities."
+            "title": "Workplace Survival Communication",
+            "description": "Introductions, roles, responsibilities, meetings, requests, clarification, and basic workplace interaction."
           },
           {
-            "title": "Functional Professional Speaking",
-            "description": "Giving updates, describing problems, requesting information, and responding to colleagues."
+            "title": "Professional Sentence Production",
+            "description": "Move from isolated language to short, accurate professional statements and responses."
           }
         ]
       }
