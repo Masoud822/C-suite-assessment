@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 1,
+      "score": 2,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "6/30 Answered",
+      "c_suite_level": "7/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T18:38:15.118Z",
+      "started_at": "2026-08-16T18:38:19.331Z",
       "completed_at": null,
       "answers": {
         "1": 1,
@@ -22,7 +22,8 @@
         "3": 2,
         "4": 0,
         "5": 3,
-        "6": 1
+        "6": 1,
+        "7": 2
       },
       "report": {
         "candidate": {
@@ -31,10 +32,10 @@
           "role": "Ui",
           "linkedin": ""
         },
-        "score": 1,
+        "score": 2,
         "totalQuestions": 30,
-        "accuracy": 3,
-        "scoreOutOf40": 1,
+        "accuracy": 7,
+        "scoreOutOf40": 3,
         "cefrLevel": "A1−",
         "cSuiteStage": {
           "title": "Starting Communicator",
@@ -47,9 +48,9 @@
             "category": "Grammar",
             "title": "GRAMMAR DECISIONS",
             "subtitle": "Grammatical mechanics & complex reported tenses.",
-            "score": 1,
+            "score": 2,
             "total": 10,
-            "percentage": 10,
+            "percentage": 20,
             "badge": "NEEDS IMPROVEMENT",
             "badgeType": "warning"
           },
