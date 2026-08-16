@@ -8,13 +8,13 @@
       "phone": "01010111837",
       "company": "",
       "linkedin": "",
-      "score": 12,
+      "score": 13,
       "total_questions": 30,
       "cefr_level": "In Progress",
-      "c_suite_level": "26/30 Answered",
+      "c_suite_level": "27/30 Answered",
       "infractions_count": 0,
       "status": "IN_PROGRESS",
-      "started_at": "2026-08-16T18:40:52.462Z",
+      "started_at": "2026-08-16T18:40:56.537Z",
       "completed_at": null,
       "answers": {
         "1": 1,
@@ -42,7 +42,8 @@
         "23": 1,
         "24": 2,
         "25": 2,
-        "26": 1
+        "26": 1,
+        "27": 2
       },
       "report": {
         "candidate": {
@@ -51,17 +52,17 @@
           "role": "Ui",
           "linkedin": ""
         },
-        "score": 12,
+        "score": 13,
         "totalQuestions": 30,
-        "accuracy": 40,
-        "scoreOutOf40": 16,
-        "cefrLevel": "A2−",
+        "accuracy": 43,
+        "scoreOutOf40": 17,
+        "cefrLevel": "A2",
         "cSuiteStage": {
-          "title": "Functional Communicator",
-          "description": "Can manage routine conversations in everyday and workplace contexts."
+          "title": "Operational Communicator",
+          "description": "Can communicate effectively in familiar workplace situations."
         },
-        "oneLineExplanation": "Can manage routine conversations in everyday and workplace contexts.",
-        "diagnosticSummary": "You can manage routine everyday and workplace communication. Your communication is generally functional, although your accuracy, clarity, and language control may become inconsistent when situations are less familiar or more demanding.",
+        "oneLineExplanation": "Can communicate effectively in familiar workplace situations.",
+        "diagnosticSummary": "You can communicate effectively in familiar workplace situations and complete routine communicative tasks. To progress further, you need to develop greater precision, flexibility, and consistency in more complex professional interactions.",
         "sectionRatings": [
           {
             "category": "Grammar",
@@ -87,39 +88,39 @@
             "category": "Situations",
             "title": "COMMUNICATION JUDGMENT",
             "subtitle": "Tactful, leadership-aligned workplace decisions.",
-            "score": 6,
+            "score": 7,
             "total": 10,
-            "percentage": 60,
+            "percentage": 70,
             "badge": "COMPETENT",
             "badgeType": "info"
           }
         ],
         "recommendedPath": [
           {
-            "title": "Grammar Decision-Making",
-            "description": "Develop faster selection and production of core grammatical structures."
+            "title": "Grammar Precision",
+            "description": "Improve accuracy and automaticity across core professional grammar patterns."
           },
           {
-            "title": "Workplace Communication Vocabulary",
-            "description": "Meetings, updates, deadlines, projects, clients, and responsibilities."
+            "title": "C-Suite Vocabulary Foundation",
+            "description": "Professional collocations, workplace terminology, and precise alternatives to basic vocabulary."
           },
           {
-            "title": "Functional Professional Speaking",
-            "description": "Giving updates, describing problems, requesting information, and responding to colleagues."
+            "title": "Professional Interaction Skills",
+            "description": "Meetings, updates, explanations, clarification, and workplace problem-solving."
           }
         ],
         "learningPath": [
           {
-            "title": "Grammar Decision-Making",
-            "description": "Develop faster selection and production of core grammatical structures."
+            "title": "Grammar Precision",
+            "description": "Improve accuracy and automaticity across core professional grammar patterns."
           },
           {
-            "title": "Workplace Communication Vocabulary",
-            "description": "Meetings, updates, deadlines, projects, clients, and responsibilities."
+            "title": "C-Suite Vocabulary Foundation",
+            "description": "Professional collocations, workplace terminology, and precise alternatives to basic vocabulary."
           },
           {
-            "title": "Functional Professional Speaking",
-            "description": "Giving updates, describing problems, requesting information, and responding to colleagues."
+            "title": "Professional Interaction Skills",
+            "description": "Meetings, updates, explanations, clarification, and workplace problem-solving."
           }
         ]
       }
