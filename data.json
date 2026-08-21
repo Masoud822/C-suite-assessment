@@ -1,6 +1,24 @@
 {
   "candidates": [
     {
+      "id": 1787339000655,
+      "user_id": 1787339000655,
+      "name": "Omar",
+      "email": "omarahmed590@gmail.com",
+      "phone": "01010111837",
+      "company": "",
+      "linkedin": "",
+      "score": 0,
+      "total_questions": 30,
+      "cefr_level": "In Progress",
+      "c_suite_level": "Assessment Started",
+      "infractions_count": 0,
+      "status": "IN_PROGRESS",
+      "started_at": "2026-08-21T19:03:20.656Z",
+      "completed_at": null,
+      "answers": {}
+    },
+    {
       "id": 1786905435502,
       "user_id": 1786905435502,
       "name": "Omar",
